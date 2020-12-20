@@ -1,4 +1,4 @@
-var canvas = document.getElementById('game');
+window.canvas = document.getElementById('game');
 var ctx = canvas.getContext('2d');
 var mouseX = 0;
 var mouseY = 0;
