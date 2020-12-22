@@ -1,16 +1,12 @@
 window.canvas = document.getElementById('game');
-var ctx = canvas.getContext('2d');
-var mouseX = 0;
-var mouseY = 0;
+let ctx = canvas.getContext('2d');
+let mouseX = 0;
+let mouseY = 0;
 
-var gameplayState = "play";
-var levelNumber = 0;
-var level = levels[levelNumber];
-var camera = {
-	centeredOnX: 0,
-	centeredOnY: 0,
-	zoom: 1
-}
+window.gamestate = {};
+gamestate.ui = "play";
+gamestate.levelNum = 0;
+gamestate.level = levels[gamestate.levelNum];
 
 ctx.lineCap = 'round';
 ctx.strokeStyle = 'DodgerBlue';
