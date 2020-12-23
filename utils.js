@@ -12,3 +12,30 @@ utils.pixelstoward = function(x1, y1, x2, y2, px) {
 	newa.y = x2 + (rise * px);
 	return newa;
 }
+
+utils.getLines = function(ctx, text, maxWidth) {
+	var words = text.split(" ");
+	var lines = [];
+	var currentLine = words[0];
+
+	for (var i = 1; i < words.length; i++) {
+		var word = words[i];
+		var width = ctx.measureText(currentLine + " " + word).width;
+		if (width < maxWidth) {
+			currentLine += " " + word;
+		} else {
+			lines.push(currentLine);
+			currentLine = word;
+		}
+	}
+	lines.push(currentLine);
+	return lines;
+}
+
+utils.drawWrappedText = function(txt, x, y, px, gap) {
+	var lines = getLines(ctx, txt, canvas.width - 200);
+	var absy = y;//(y - (lines.length * (px + gap))) + gap;
+	for (var i = 0; i < lines.length; i++) {
+		ctx.fillText(lines[i], x, absy + (i * (px + gap)));
+	}
+}

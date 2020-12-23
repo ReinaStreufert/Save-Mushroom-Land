@@ -1,4 +1,4 @@
-let texturelist = [
+let textureList = [
   {
     name: "froggistill",
     src: "/froggi/froggi_still.png"

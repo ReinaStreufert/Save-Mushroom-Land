@@ -91,7 +91,9 @@ camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin deci
 	var screenX = screenPt.x - textureW / 2;
 	var screenY = screenPt.y - textureH / 2;
 
-	return {x: screenX, y: screenY, width: textureW, height: textureH};
+	var result = {x: screenX, y: screenY - textureH, width: textureW, height: textureH};
+	//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
+	return result;
 }
 
 camera.PlacePoint = function(x, y) {
@@ -102,5 +104,5 @@ camera.PlacePoint = function(x, y) {
 	screenX = screenX + canvas.width / 2;
 	screenY = screenY + canvas.height / 2;
 
-	return {x: screenX, y: screenY};
+	return {x: screenX, y: canvas.height - screenY};
 }

@@ -4,13 +4,15 @@ let mouseX = 0;
 let mouseY = 0;
 
 window.gamestate = {};
-gamestate.ui = "play";
+gamestate.ui = "load";
 gamestate.levelNum = 0;
-gamestate.level = levels[gamestate.levelNum];
+gamestate.level = levels.levellist[gamestate.levelNum];
 
-ctx.lineCap = 'round';
-ctx.strokeStyle = 'DodgerBlue';
-ctx.lineJoin = 'round';
+textures.LoadAll(() => {
+	gamestate.level.Initialize();
+	gamestate.ui = "play";
+});
+
 
 document.body.onresize = function() {
 	var canvas = document.getElementById('game');
@@ -20,37 +22,26 @@ document.body.onresize = function() {
 canvas.width = document.body.offsetWidth;
 canvas.height = document.body.offsetHeight;
 
-function getLines(ctx, text, maxWidth) {
-	var words = text.split(" ");
-	var lines = [];
-	var currentLine = words[0];
-
-	for (var i = 1; i < words.length; i++) {
-		var word = words[i];
-		var width = ctx.measureText(currentLine + " " + word).width;
-		if (width < maxWidth) {
-			currentLine += " " + word;
-		} else {
-			lines.push(currentLine);
-			currentLine = word;
-		}
-	}
-	lines.push(currentLine);
-	return lines;
-}
-
-function drawWrappedText(txt, x, y, px, gap) {
-	var lines = getLines(ctx, txt, canvas.width - 200);
-	var absy = y;//(y - (lines.length * (px + gap))) + gap;
-	for (var i = 0; i < lines.length; i++) {
-		ctx.fillText(lines[i], x, absy + (i * (px + gap)));
-	}
-}
-
-function loop() {
+let loop = function(time) {
+	ctx.imageSmoothingEnabled = false;
 	requestAnimationFrame(loop);
 	ctx.fillStyle = gamesettings.skycolor;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	if (gamestate.ui == "play") {
+		//console.log("ayo");
+		camera.Do(time);
+		for (let i = 0; i < gamestate.level.mushrooms.length; i++) {
+			//console.log("ayo");
+			let mushroom = gamestate.level.mushrooms[i];
+			let rect = camera.PlaceTexture(mushroom.texture, mushroom.x, 0, 0, 1);
+			ctx.drawImage(mushroom.texture, rect.x, rect.y, rect.width, rect.height);
+		}
+		for (let i = 0; i < gamestate.level.ents.length; i++) {
+			let ent = gamestate.level.ents[i];
+			ent.Do(ctx, time);
+		}
+	}
 }
 
 canvas.addEventListener('mousemove', function(e) {
@@ -59,6 +50,23 @@ canvas.addEventListener('mousemove', function(e) {
 	mouseY = e.clientY - rect.top;
 });
 document.addEventListener('keydown', function(e) {
-
+	if (gamestate.ui == "play") {
+		for (let i = 0; i < gamestate.level.ents.length; i++) {
+			let ent = gamestate.level.ents[i];
+			if (ent.ReceiveKeyUpdates) {
+				ent.KeyDown(e);
+			}
+		}
+	}
+});
+document.addEventListener('keyup', function(e) {
+	if (gamestate.ui == "play") {
+		for (let i = 0; i < gamestate.level.ents.length; i++) {
+			let ent = gamestate.level.ents[i];
+			if (ent.ReceiveKeyUpdates) {
+				ent.KeyUp(e);
+			}
+		}
+	}
 });
 requestAnimationFrame(loop);
