@@ -5,5 +5,6 @@ window.gamesettings = {
 	skycolor: "#1FAEEB",
 	entdefaultmovespeed: 500,
 	gravity: 2000,
-	entdefaultjumppower: 1000
+	entdefaultjumppower: 1000,
+	froggideaththreshold: -20
 }

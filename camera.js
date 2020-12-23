@@ -48,7 +48,12 @@ camera.Do = function(time) {
 	if (camera.mode == "fixedpoint") {
 		lerp(camera.targetX, camera.targetY, camera.targetZoom, true);
 	} else if (camera.mode == "focus") {
-		lerp(camera.focus.x, camera.focus.y, camera.targetZoom, true);
+		let x = camera.focus.x;
+		let y = camera.focus.y;
+		if (y < 91 * gamesettings.basescalefactor) {
+			y = 91 * gamesettings.basescalefactor;
+		}
+		lerp(x, y, camera.targetZoom, true);
 	} else if (camera.mode == "slowpan") {
 		if (camera.slowpanstarttime == null) {
 			camera.slowpanstarttime = time;

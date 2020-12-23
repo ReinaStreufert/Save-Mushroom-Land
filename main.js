@@ -50,8 +50,10 @@ canvas.addEventListener('mousemove', function(e) {
 	mouseY = e.clientY - rect.top;
 });
 canvas.addEventListener('mousedown', function(e) {
-	sounds.LoadAll();
+	if (sounds.LoadedSounds == 0) {
+		sounds.LoadAll();
 		music.Begin();
+	}
 });
 document.addEventListener('keydown', function(e) {
 	if (gamestate.ui == "play") {

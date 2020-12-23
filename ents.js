@@ -64,6 +64,10 @@ froggi.Do = function(ctx, time) {
 	}
 	var rect = camera.PlaceTexture(usedTex, froggi.x, froggi.y, 0, 1);
 	ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
+
+	if (froggi.y < gamesettings.froggideaththreshold) {
+		gamestate.level.Initialize();
+	}
 }
 froggi.KeyDown = function(key) {
 	if (key.code == "Space") {

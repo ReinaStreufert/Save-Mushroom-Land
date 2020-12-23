@@ -21,6 +21,7 @@ sounds.LoadAll = function() {
     let soundentry = soundList[i];
     sounds[soundentry.name] = new Audio();
     sounds[soundentry.name].src = soundentry.src;
+		sounds.LoadedSounds++;
   }
 }
 window.music = {};

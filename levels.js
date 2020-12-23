@@ -4,7 +4,7 @@ levels.testlvl = {};
 let testlvl = levels.testlvl;
 testlvl.Initialize = function() {
 	ents.froggi.x = 0;
-	ents.froggi.y = 120 * gamesettings.basescalefactor;
+	ents.froggi.y = 91 * gamesettings.basescalefactor;
 
 	var mushroom1 = {};
 	mushroom1.texture = textures.mushroom1;
@@ -17,8 +17,8 @@ testlvl.Initialize = function() {
 	testlvl.mushrooms = [mushroom1];
 
 	camera.SetFocus(ents.froggi, 1);
-	camera.actualX = ents.froggi.x;
-	camera.actualY = ents.froggi.y;
+	//camera.actualX = ents.froggi.x;
+	//camera.actualY = ents.froggi.y;
 }
 
 levels.levellist = [
