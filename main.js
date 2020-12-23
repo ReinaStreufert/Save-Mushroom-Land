@@ -49,6 +49,10 @@ canvas.addEventListener('mousemove', function(e) {
 	mouseX = e.clientX - rect.left;
 	mouseY = e.clientY - rect.top;
 });
+canvas.addEventListener('mousedown', function(e) {
+	sounds.LoadAll();
+		music.Begin();
+});
 document.addEventListener('keydown', function(e) {
 	if (gamestate.ui == "play") {
 		for (let i = 0; i < gamestate.level.ents.length; i++) {
