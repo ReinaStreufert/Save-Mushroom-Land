@@ -39,3 +39,25 @@ utils.drawWrappedText = function(txt, x, y, px, gap) {
 		ctx.fillText(lines[i], x, absy + (i * (px + gap)));
 	}
 }
+
+/* View in fullscreen */
+utils.openFullscreen = function() {
+  if (canvas.requestFullscreen) {
+    canvas.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    canvas.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    canvas.msRequestFullscreen();
+  }
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+    document.msExitFullscreen();
+  }
+}

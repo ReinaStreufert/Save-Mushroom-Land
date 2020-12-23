@@ -7,10 +7,10 @@ window.gamestate = {};
 gamestate.ui = "load";
 gamestate.levelNum = 0;
 gamestate.level = levels.levellist[gamestate.levelNum];
+gamestate.menuItem = 0;
 
 textures.LoadAll(() => {
-	gamestate.level.Initialize();
-	gamestate.ui = "play";
+	gamestate.ui = "menu";
 });
 
 
@@ -25,14 +25,12 @@ canvas.height = document.body.offsetHeight;
 let loop = function(time) {
 	ctx.imageSmoothingEnabled = false;
 	requestAnimationFrame(loop);
-	ctx.fillStyle = gamesettings.skycolor;
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	if (gamestate.ui == "play") {
-		//console.log("ayo");
+		ctx.fillStyle = gamesettings.skycolor;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		camera.Do(time);
 		for (let i = 0; i < gamestate.level.mushrooms.length; i++) {
-			//console.log("ayo");
 			let mushroom = gamestate.level.mushrooms[i];
 			let rect = camera.PlaceTexture(mushroom.texture, mushroom.x, 0, 0, 1);
 			ctx.drawImage(mushroom.texture, rect.x, rect.y, rect.width, rect.height);
@@ -41,6 +39,32 @@ let loop = function(time) {
 			let ent = gamestate.level.ents[i];
 			ent.Do(ctx, time);
 		}
+	} else if (gamestate.ui == "load") {
+		ctx.fillStyle = "#000000";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.font = "16px 'Press Start 2P'";
+		ctx.textAlign = "center";
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillText("LOADING...", canvas.width / 2, canvas.height / 2);
+	} else if (gamestate.ui == "menu") {
+		ctx.fillStyle = "#000000";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		ctx.font = "16px 'Press Start 2P'";
+		ctx.textAlign = "center";
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillText("SAVE MUSHROOM LAND", canvas.width / 2, canvas.height / 2 - 15);
+		ctx.textAlign = "left";
+		if (gamestate.menuItem == 0) {
+			ctx.fillText(">Play", canvas.width / 2 - 50, canvas.height / 2 + 15);
+		} else {
+			ctx.fillText(" Play", canvas.width / 2 - 50, canvas.height / 2 + 15);
+		}
+		if (gamestate.menuItem == 1) {
+			ctx.fillText(">Extras", canvas.width / 2 - 50, canvas.height / 2 + 45);
+		} else {
+			ctx.fillText(" Extras", canvas.width / 2 - 50, canvas.height / 2 + 45);
+		}
+
 	}
 }
 
@@ -50,10 +74,7 @@ canvas.addEventListener('mousemove', function(e) {
 	mouseY = e.clientY - rect.top;
 });
 canvas.addEventListener('mousedown', function(e) {
-	if (sounds.LoadedSounds == 0) {
-		sounds.LoadAll();
-		music.Begin();
-	}
+
 });
 document.addEventListener('keydown', function(e) {
 	if (gamestate.ui == "play") {
@@ -61,6 +82,22 @@ document.addEventListener('keydown', function(e) {
 			let ent = gamestate.level.ents[i];
 			if (ent.ReceiveKeyUpdates) {
 				ent.KeyDown(e);
+			}
+		}
+	} else if (gamestate.ui == "menu") {
+		if (e.code == "ArrowDown" || e.code == "ArrowUp") {
+			if (gamestate.menuItem == 0) {
+				gamestate.menuItem = 1;
+			} else {
+				gamestate.menuItem = 0;
+			}
+		} else if (e.code == "Enter") {
+			if (gamestate.menuItem == 0) {
+				gamestate.level.Initialize();
+				sounds.LoadAll();
+				music.Begin();
+				utils.openFullscreen();
+				gamestate.ui = "play";
 			}
 		}
 	}

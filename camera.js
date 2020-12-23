@@ -77,8 +77,8 @@ camera.Do = function(time) {
 	}
 }
 camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin decides what part of texture the placement point represents, between -1 and 1, -1 is left edge or top edge, 0 is center, 1 is right edge or bottom edge
-	var textureW = texture.width * gamesettings.basescalefactor * camera.actualZoom;
-	var textureH = texture.height * gamesettings.basescalefactor * camera.actualZoom;
+	var textureW = texture.width * gamesettings.basescalefactor;
+	var textureH = texture.height * gamesettings.basescalefactor;
 	var normX = x;
 	var normY = y;
 	if (xOrigin < 0) {
@@ -94,9 +94,16 @@ camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin deci
 
 	var screenPt = camera.PlacePoint(normX, normY);
 	var screenX = screenPt.x - textureW / 2;
-	var screenY = screenPt.y - textureH / 2;
+	var screenY = (screenPt.y - textureH / 2) - textureH;
 
-	var result = {x: screenX, y: screenY - textureH, width: textureW, height: textureH};
+	screenX -= canvas.width / 2;
+	screenX *= camera.actualZoom;
+	screenX += canvas.width / 2;
+	screenY -= canvas.height / 2;
+	screenY *= camera.actualZoom;
+	screenY += canvas.height / 2;
+
+	var result = {x: screenX, y: screenY, width: textureW * camera.actualZoom, height: textureH * camera.actualZoom};
 	//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
 	return result;
 }
@@ -104,8 +111,6 @@ camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin deci
 camera.PlacePoint = function(x, y) {
 	var screenX = x - camera.actualX;
 	var screenY = y - camera.actualY;
-	screenX = screenX * camera.actualZoom;
-	screenY = screenY * camera.actualZoom;
 	screenX = screenX + canvas.width / 2;
 	screenY = screenY + canvas.height / 2;
 
