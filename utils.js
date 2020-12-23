@@ -52,7 +52,7 @@ utils.openFullscreen = function() {
 }
 
 /* Close fullscreen */
-function closeFullscreen() {
+utils.closeFullscreen = function() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.webkitExitFullscreen) { /* Safari */
@@ -60,4 +60,7 @@ function closeFullscreen() {
   } else if (document.msExitFullscreen) { /* IE11 */
     document.msExitFullscreen();
   }
+}
+utils.randInt = function(min, max) {
+	return Math.floor(Math.random() * (max - min)) + min;
 }

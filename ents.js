@@ -70,7 +70,7 @@ froggi.Do = function(ctx, time) {
 	}
 }
 froggi.KeyDown = function(key) {
-	if (key.code == "Space") {
+	if (key.code == "Space" || key.code == "KeyW") {
 		froggi.jumprequest = true;
 	} else if (key.code == "KeyD") {
 		froggi.direction = 1;

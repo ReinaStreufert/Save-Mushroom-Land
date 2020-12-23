@@ -30,6 +30,7 @@ let loop = function(time) {
 		ctx.fillStyle = gamesettings.skycolor;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		camera.Do(time);
+		env.Do(ctx, time);
 		for (let i = 0; i < gamestate.level.mushrooms.length; i++) {
 			let mushroom = gamestate.level.mushrooms[i];
 			let rect = camera.PlaceTexture(mushroom.texture, mushroom.x, 0, 0, 1);
@@ -94,8 +95,9 @@ document.addEventListener('keydown', function(e) {
 		} else if (e.code == "Enter") {
 			if (gamestate.menuItem == 0) {
 				gamestate.level.Initialize();
+				env.Initialize();
 				sounds.LoadAll();
-				music.Begin();
+				//music.Begin();
 				utils.openFullscreen();
 				gamestate.ui = "play";
 			}

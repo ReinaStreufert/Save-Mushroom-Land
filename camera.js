@@ -11,7 +11,7 @@ camera.slowpanstarttime = null;
 camera.slowpanstartX = 0;
 camera.slowpanstartY = 0;
 camera.slowpanondestreached = null;
-camera.mode = "fixedpoint"; // "fixedpoint", "focus" (follows a certain entity), "slowpan"
+camera.mode = "first"; // "fixedpoint", "focus" (follows a certain entity), "slowpan"
 
 let lerp = function(x, y, zoom, doxy) {
 	var difX = x - camera.actualX;
@@ -28,6 +28,15 @@ let lerp = function(x, y, zoom, doxy) {
 camera.SetFocus = function(ent, zoom) {
 	camera.focus = ent;
 	camera.targetZoom = zoom;
+	if (camera.mode == "first") {
+		let x = camera.focus.x;
+		let y = camera.focus.y;
+		if (y < 91 * gamesettings.basescalefactor) {
+			y = 91 * gamesettings.basescalefactor;
+		}
+		camera.actualX = x;
+		camera.actualY = y + 90 * gamesettings.basescalefactor;
+	}
 	camera.mode = "focus";
 }
 camera.SetFixedPoint = function(x, y, zoom) {
@@ -108,6 +117,38 @@ camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin deci
 	return result;
 }
 
+camera.PlaceFixedTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin decides what part of texture the placement point represents, between -1 and 1, -1 is left edge or top edge, 0 is center, 1 is right edge or bottom edge
+	var textureW = texture.width * gamesettings.basescalefactor;
+	var textureH = texture.height * gamesettings.basescalefactor;
+	var normX = x;
+	var normY = y;
+	if (xOrigin < 0) {
+		normX = x + textureW / 2;
+	} else if (xOrigin > 0) {
+		normX = x - textureW / 2;
+	}
+	if (yOrigin < 0) {
+		normY = y + textureH / 2;
+	} else if (yOrigin > 0) {
+		normY = y - textureH / 2;
+	}
+
+	var screenPt = camera.PlacePointFixed(normX, normY);
+	var screenX = screenPt.x - textureW / 2;
+	var screenY = (screenPt.y - textureH / 2);
+
+	screenX -= canvas.width / 2;
+	screenX *= camera.actualZoom;
+	screenX += canvas.width / 2;
+	screenY -= canvas.height / 2;
+	screenY *= camera.actualZoom;
+	screenY += canvas.height / 2;
+
+	var result = {x: screenX, y: screenY, width: textureW * camera.actualZoom, height: textureH * camera.actualZoom};
+	//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
+	return result;
+}
+
 camera.PlacePoint = function(x, y) {
 	var screenX = x - camera.actualX;
 	var screenY = y - camera.actualY;
@@ -115,4 +156,8 @@ camera.PlacePoint = function(x, y) {
 	screenY = screenY + canvas.height / 2;
 
 	return {x: screenX, y: canvas.height - screenY};
+}
+
+camera.PlacePointFixed = function(x, y) {
+	return {x: x, y: canvas.height - y};
 }
