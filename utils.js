@@ -32,8 +32,8 @@ utils.getLines = function(ctx, text, maxWidth) {
 	return lines;
 }
 
-utils.drawWrappedText = function(txt, x, y, px, gap) {
-	var lines = getLines(ctx, txt, canvas.width - 200);
+utils.drawWrappedText = function(ctx, txt, x, y, px, gap, maxWidth) {
+	var lines = utils.getLines(ctx, txt, maxWidth);
 	var absy = y;//(y - (lines.length * (px + gap))) + gap;
 	for (var i = 0; i < lines.length; i++) {
 		ctx.fillText(lines[i], x, absy + (i * (px + gap)));

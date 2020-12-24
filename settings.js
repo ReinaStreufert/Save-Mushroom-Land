@@ -22,5 +22,14 @@ window.gamesettings = {
 	windmarkthreshold: 1500,
 	windthreshold: 1080,
 	terminalvelocity: 1500,
-	offscreenarrowoffset: -20
+	offscreenarrowoffset: -20,
+	dialogmargin: 100,
+	dialogpadding: 40,
+	dialogbordercolor: "white",
+	dialogcolor: "black",
+	dialogtextcolor: "white",
+	dialogborderwidth: 10,
+	dialogheight: 250,
+	dialogendtext: "Press ENTER to continue...",
+	dialogtextinterval: 25 // interval in milliseconds
 }

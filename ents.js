@@ -25,6 +25,10 @@
 		for (let i = 0; i < mushrooms.length; i++) {
 			let mushroom = mushrooms[i];
 			if (mushroom.platformleft <= entleft && mushroom.platformright >= entright && ent.y >= mushroom.platformy && (ent.y + (ent.yvel * elapsedseconds)) < mushroom.platformy) {
+				if (mushroom.OnTrigger && !mushroom.trigger) {
+					mushroom.OnTrigger();
+					mushroom.trigger = true;
+				}
 				inair = false;
 				ent.yvel = 0;
 				ent.jumping = false;
@@ -61,6 +65,9 @@
 
 			var rect = camera.PlaceTexture(textures.offscreen, ent.x, gamesettings.offscreenarrowoffset, 0, 0);
 			//var magrect = {x: rect.x - (rect.width * mag) / 2, y: rect.y - (rect.height * mag) / 2, width: rect.width * mag, height: rect.height * mag};
+			if (mag < 0) {
+				mag = 0;
+			}
 			ctx.globalAlpha = mag;
 			ctx.drawImage(textures.offscreen, rect.x, rect.y, rect.width, rect.height);
 			ctx.globalAlpha = 1;

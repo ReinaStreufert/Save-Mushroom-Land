@@ -45,6 +45,7 @@
 				let ent = gamestate.level.ents[i];
 				ent.Do(ctx, time);
 			}
+			dialog.Do(ctx, time);
 		} else if (gamestate.ui == "load") {
 			ctx.fillStyle = "#000000";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -70,7 +71,6 @@
 			} else {
 				ctx.fillText(" Extras", canvas.width / 2 - 50, canvas.height / 2 + 45);
 			}
-
 		}
 	}
 
@@ -89,6 +89,9 @@
 				if (ent.ReceiveKeyUpdates) {
 					ent.KeyDown(e);
 				}
+			}
+			if (e.code == "Enter") {
+				dialog.NextDialog();
 			}
 		} else if (gamestate.ui == "menu") {
 			if (e.code == "ArrowDown" || e.code == "ArrowUp") {
