@@ -11,6 +11,15 @@ let doPhysics = function(ent, time) {
 
 	ent.yvel -= ent.gravity * elapsedseconds;
 
+	var winds = gamestate.level.winds;
+	for (let i = 0; i < winds.length; i++) {
+		let column = winds[i];
+		if (entright >= column.Left() && entleft <= column.Right() && ent.y < gamesettings.windthreshold) {
+			console.log("asd");
+			ent.yvel += (ent.gravity + gamesettings.windforce) * elapsedseconds;
+		}
+	}
+
 	var mushrooms = gamestate.level.mushrooms;
 	var inair = true;
 	for (let i = 0; i < mushrooms.length; i++) {
@@ -29,6 +38,12 @@ let doPhysics = function(ent, time) {
 			ent.jumping = true;
 		}
 		ent.jumprequest = false;
+	}
+
+	if (ent.yvel > gamesettings.terminalvelocity) {
+		ent.yvel = gamesettings.terminalvelocity;
+	} else if (ent.yvel < -gamesettings.terminalvelocity) {
+		ent.yvel = -gamesettings.terminalvelocity;
 	}
 
 	ent.y += ent.yvel * elapsedseconds;
@@ -51,18 +66,37 @@ froggi.movespeed = gamesettings.entdefaultmovespeed;
 froggi.gravity = gamesettings.gravity;
 froggi.jumppower = gamesettings.entdefaultjumppower;
 froggi.lasttime = null;
+
+froggi.tongue = 0;
 froggi.Do = function(ctx, time) {
 	doPhysics(froggi, time);
 	if (!froggi.inair && !froggi.jumping && froggi.direction != 0) {
 		froggi.jumprequest = true;
 	}
 	var usedTex;
+	var offset = 0;
 	if (froggi.jumping) {
-		usedTex = textures.froggijump;
+		if (froggi.tongue == 1) {
+			usedTex = textures.froggijumptongueright;
+			offset = 7 * gamesettings.basescalefactor;
+		} else if (froggi.tongue == -1) {
+			usedTex = textures.froggijumptongueleft;
+			offset = -7 * gamesettings.basescalefactor;
+		} else {
+			usedTex = textures.froggijump;
+		}
 	} else {
-		usedTex = textures.froggistill;
+		if (froggi.tongue == 1) {
+			usedTex = textures.froggitongueright
+			offset = 7.5 * gamesettings.basescalefactor;
+		} else if (froggi.tongue == -1) {
+			usedTex = textures.froggitongueleft;
+			offset = -7.5 * gamesettings.basescalefactor;
+		} else {
+			usedTex = textures.froggistill;
+		}
 	}
-	var rect = camera.PlaceTexture(usedTex, froggi.x, froggi.y, 0, 1);
+	var rect = camera.PlaceTexture(usedTex, froggi.x + offset, froggi.y, 0, 1);
 	ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 
 	if (froggi.y < gamesettings.froggideaththreshold) {
@@ -82,13 +116,20 @@ froggi.KeyDown = function(key) {
 		if (!froggi.inair) {
 			froggi.jumprequest = true;
 		}
+	} else if (key.code == "ArrowRight") {
+		froggi.tongue = 1;
+	} else if (key.code == "ArrowLeft") {
+		froggi.tongue = -1;
 	}
 }
 froggi.KeyUp = function(key) {
 	if (key.code == "KeyD" && froggi.direction == 1) {
 		froggi.direction = 0;
-	}
-	if (key.code == "KeyA" && froggi.direction == -1) {
+	} else if (key.code == "KeyA" && froggi.direction == -1) {
 		froggi.direction = 0;
+	} else if (key.code == "ArrowRight" && froggi.tongue == 1) {
+		froggi.tongue = 0;
+	} else if (key.code == "ArrowLeft" && froggi.tongue == -1) {
+		froggi.tongue = 0;
 	}
 }

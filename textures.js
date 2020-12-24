@@ -12,7 +12,7 @@ let textureList = [
     src: "/froggi/froggi_tongue_left.png"
   },
   {
-    name: "froggietongueright",
+    name: "froggitongueright",
     src: "/froggi/froggi_tongue_right.png"
   },
   {

@@ -30,6 +30,10 @@ let loop = function(time) {
 		ctx.fillStyle = gamesettings.skycolor;
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		camera.Do(time);
+		for (let i = 0; i < gamestate.level.winds.length; i++) {
+			let column = gamestate.level.winds[i];
+			column.Do(ctx, time);
+		}
 		env.Do(ctx, time);
 		for (let i = 0; i < gamestate.level.mushrooms.length; i++) {
 			let mushroom = gamestate.level.mushrooms[i];
@@ -98,7 +102,7 @@ document.addEventListener('keydown', function(e) {
 				env.Initialize();
 				sounds.LoadAll();
 				//music.Begin();
-				utils.openFullscreen();
+				//utils.openFullscreen();
 				gamestate.ui = "play";
 			}
 		}
@@ -112,6 +116,15 @@ document.addEventListener('keyup', function(e) {
 				ent.KeyUp(e);
 			}
 		}
+	}
+});
+document.addEventListener('wheel', function(e) {
+	let zoomDelta = (0 - e.deltaY) / 1000;
+	camera.targetZoom += zoomDelta;
+	if (camera.targetZoom < 1) {
+		camera.targetZoom = 1;
+	} else if (camera.targetZoom > 5) {
+		camera.targetZoom = 5;
 	}
 });
 requestAnimationFrame(loop);

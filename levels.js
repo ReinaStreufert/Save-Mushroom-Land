@@ -27,8 +27,19 @@ testlvl.Initialize = function() {
 	mushroom3.platformleft = mushroom3.x - (40 * gamesettings.basescalefactor);
 	mushroom3.platformright = mushroom3.x + (40 * gamesettings.basescalefactor);
 
+	var mushroom4 = {};
+	mushroom4.texture = textures.mushroom4;
+	mushroom4.x = 280 * gamesettings.basescalefactor;
+	mushroom4.platformy = 102 * gamesettings.basescalefactor;
+	mushroom4.platformleft = mushroom4.x - (60 * gamesettings.basescalefactor);
+	mushroom4.platformright = mushroom4.x + (60 * gamesettings.basescalefactor);
+
+
+	var wind1 = wind.new(210 * gamesettings.basescalefactor);
+
 	testlvl.ents = [ents.froggi];
-	testlvl.mushrooms = [mushroom1, mushroom2, mushroom3];
+	testlvl.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4];
+	testlvl.winds = [wind1];
 
 	camera.SetFocus(ents.froggi, 1);
 	//camera.actualX = ents.froggi.x;

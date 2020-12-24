@@ -21,8 +21,13 @@ let lerp = function(x, y, zoom, doxy) {
 	if (doxy) {
 		camera.actualX += difX * gamesettings.cameralerpspeed;
 		camera.actualY += difY * gamesettings.cameralerpspeed;
+	} else {
+		camera.actualZoom += difzoom * gamesettings.cameralerpspeed;
 	}
-	camera.actualZoom += difzoom * gamesettings.cameralerpspeed;
+}
+
+let calculateYZero = function() {
+	return ((canvas.height / camera.actualZoom) / 2);
 }
 
 camera.SetFocus = function(ent, zoom) {
@@ -54,15 +59,20 @@ camera.SetSlowPan = function(x, y, zoom, ondestinationreached) {
 	camera.mode = "slowpan";
 }
 camera.Do = function(time) {
+	lerp(0, 0, camera.targetZoom, false);
 	if (camera.mode == "fixedpoint") {
 		lerp(camera.targetX, camera.targetY, camera.targetZoom, true);
 	} else if (camera.mode == "focus") {
 		let x = camera.focus.x;
 		let y = camera.focus.y;
-		if (y < 91 * gamesettings.basescalefactor) {
-			y = 91 * gamesettings.basescalefactor;
+		let yzero = calculateYZero();
+		if (y < yzero) {
+			y = yzero;
 		}
 		lerp(x, y, camera.targetZoom, true);
+		if (camera.actualY < yzero) {
+			camera.actualY = yzero;
+		}
 	} else if (camera.mode == "slowpan") {
 		if (camera.slowpanstarttime == null) {
 			camera.slowpanstarttime = time;
@@ -82,7 +92,6 @@ camera.Do = function(time) {
 			camera.actualX = newpt.x;
 			camera.actualY = newpt.y;
 		}
-		lerp(0, 0, camera.targetZoom, false);
 	}
 }
 camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin decides what part of texture the placement point represents, between -1 and 1, -1 is left edge or top edge, 0 is center, 1 is right edge or bottom edge
