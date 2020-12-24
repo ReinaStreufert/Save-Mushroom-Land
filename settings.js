@@ -6,7 +6,7 @@ window.gamesettings = {
 	entdefaultmovespeed: 500,
 	gravity: 2000,
 	entdefaultjumppower: 1000,
-	froggideaththreshold: -1000,
+	froggideaththreshold: -1500,
 	minclouds: 3,
 	maxclouds: 3,
 	cloudtop: 40,
@@ -19,9 +19,8 @@ window.gamesettings = {
 	windmarkspeed: 400,
 	windmarkminheight: 5,
 	windmarkmaxheight: 5,
-	windmarkcolor: "#FFFFFFFF",
-	windcolor: "#FFFFFF00",
-	windmarkthreshold: 2500,
+	windmarkthreshold: 1500,
 	windthreshold: 1080,
-	terminalvelocity: 1500
+	terminalvelocity: 1500,
+	offscreenarrowoffset: -20
 }
