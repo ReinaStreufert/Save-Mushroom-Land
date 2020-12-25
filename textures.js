@@ -67,6 +67,14 @@
 		{
 			name: "offscreen",
 			src: "/misc/offscreen.png"
+		},
+		{
+			name: "engineer1",
+			src: "/miscents/engineer_1.png"
+		},
+		{
+			name: "engineer2",
+			src: "/miscents/engineer_2.png"
 		}
 	];
 

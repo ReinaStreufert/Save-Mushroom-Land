@@ -56,18 +56,27 @@
 		mushroom5.OnTrigger = function() {
 			ents.froggi.ReceiveKeyUpdates = false;
 			ents.froggi.direction = 0;
-			camera.SetSlowPan(600 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
-				dialog.QueueDialog("uh-oh, looks like the LEAGUE OF MUSHROOM HATERS are getting more mushrooms cut down");
-				dialog.QueueDialog("they're literally destroying your home. smh my head [insert partially-ironic eye roll emoji]");
-				dialog.QueueDialog("yk what, you're fed up w this bullshit, you should just kill them bitches");
-				dialog.QueueDialog("it's time to fight the mushroom haters.");
+			camera.SetSlowPan(550 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
+				ents.fallingmushroom.StartAnimation();
+				camera.SetSlowPan(600 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
+					dialog.QueueDialog("uh-oh, looks like the LEAGUE OF MUSHROOM HATERS are getting more mushrooms cut down");
+					dialog.QueueDialog("they're literally destroying your home. smh my head [insert partially-ironic eye roll emoji]");
+					dialog.QueueDialog("yk what, you're fed up w this bullshit, you should just kill them bitches");
+					dialog.QueueDialog("it's time to fight the mushroom haters.");
+				})
 			});
 		}
 
+		ents.fallingmushroom.Reset();
+		ents.fallingmushroom.x = 600 * gamesettings.basescalefactor;
+		ents.fallingmushroom.y = 0;
+
+		ents.engineer.x = 612 * gamesettings.basescalefactor;
+		ents.engineer.y = 0;
 
 		var wind1 = wind.new(210 * gamesettings.basescalefactor);
 
-		intro.ents = [ents.froggi];
+		intro.ents = [ents.froggi, ents.fallingmushroom, ents.engineer];
 		intro.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4, mushroom5];
 		intro.winds = [wind1];
 

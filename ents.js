@@ -168,26 +168,78 @@
 
 	ents.fallingmushroom = {};
 	let fallingmushroom = ents.fallingmushroom;
-	fallingmushroom.ReceiveKeyUpdates = true;
+	fallingmushroom.ReceiveKeyUpdates = false;
 	fallingmushroom.Dead = false;
 	fallingmushroom.x = 0;
 	fallingmushroom.y = 0;
 	fallingmushroom.animationstart = null;
-	fallingmushroom.StartAnimation = function(time) {
-		fallingmushroom.animationstart = time;
+	fallingmushroom.startrequest = false;
+	fallingmushroom.StartAnimation = function() {
+		fallingmushroom.startrequest = true;
+	}
+	fallingmushroom.Reset = function() {
+		fallingmushroom.animationstart = null;
 	}
 	fallingmushroom.Do = function(ctx, time) {
-		if (animationstart != null) {
+		if (fallingmushroom.startrequest) {
+			fallingmushroom.startrequest = false;
+			fallingmushroom.animationstart = time;
+		}
+		if (fallingmushroom.animationstart != null) {
 			var stumprect = camera.PlaceTexture(textures.mushroom5stump, fallingmushroom.x, fallingmushroom.y, 0, 1);
 			ctx.drawImage(textures.mushroom5stump, stumprect.x, stumprect.y, stumprect.width, stumprect.height);
 			var elapsed = time - fallingmushroom.animationstart;
 			if (elapsed < gamesettings.fallingmushroomanimationlength) {
 				var progress = elapsed / gamesettings.fallingmushroomanimationlength;
 				var progressCurved = utils.calculatecubicbezier(gamesettings.fallingmushroomanimationcurve, progress).y;
+
+				var y = fallingmushroom.y + (progressCurved * (gamesettings.fallingmushroomendingy * gamesettings.basescalefactor)) + (textures.mushroom5stump.height * gamesettings.basescalefactor);
+				var angle = progressCurved * gamesettings.fallingmushroomendingangle;
+
+				var toprect = camera.PlaceTexture(textures.mushroom5top, fallingmushroom.x, y, 0, 1);
+				var centerx = toprect.x + toprect.width / 2;
+				var bottomy = toprect.y + toprect.height;
+				ctx.translate(centerx, bottomy);
+				ctx.rotate(-angle);
+				ctx.translate(-centerx, -bottomy);
+				ctx.drawImage(textures.mushroom5top, toprect.x, toprect.y, toprect.width, toprect.height);
+				ctx.setTransform(1, 0, 0, 1, 0, 0);
 			}
 		} else {
 			var rect = camera.PlaceTexture(textures.mushroom5, fallingmushroom.x, fallingmushroom.y, 0, 1);
 			ctx.drawImage(textures.mushroom5, rect.x, rect.y, rect.width, rect.height);
 		}
+	}
+
+	ents.engineer = {};
+	let engineer = ents.engineer;
+	engineer.ReceiveKeyUpdates = false;
+	engineer.Dead = false;
+	engineer.x = 0;
+	engineer.y = 0;
+	engineer.lastswitch = null;
+	engineer.current = 0;
+	engineer.Do = function(ctx, time) {
+		if (engineer.lastswitch == null) {
+			engineer.lastswitch = time;
+		}
+		let elapsed = time - engineer.lastswitch;
+		if (elapsed > gamesettings.engineerswitchinterval) {
+			if (engineer.current == 0) {
+				engineer.current = 1;
+			} else if (engineer.current == 1) {
+				engineer.current = 0;
+			}
+			engineer.lastswitch = time;
+			//console.log("switch");
+		}
+		let usedTexture;
+		if (engineer.current == 0) {
+			usedTexture = textures.engineer1;
+		} else if (engineer.current == 1) {
+			usedTexture = textures.engineer2;
+		}
+		let texRect = camera.PlaceTexture(usedTexture, engineer.x, engineer.y, 0, 1);
+		ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
 	}
 })();
