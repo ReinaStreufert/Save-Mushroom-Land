@@ -13,6 +13,12 @@ utils.pixelstoward = function(x1, y1, x2, y2, px) {
 	return newa;
 }
 
+utils.calculatecubicbezier = function(curve, t) {
+	var a = utils.pixelstoward(curve[0].x, curve[0].y, curve[1].x, curve[1].y, utils.distance(curve[0].x, curve[0].y, curve[1].x, curve[1].y) * t);
+	var b = utils.pixelstoward(curve[1].x, curve[1].y, curve[2].x, curve[2].y, utils.distance(curve[1].x, curve[1].y, curve[2].x, curve[2].y) * t);
+	return utils.pixelstoward(a.x, a.y, b.x, b.y, utils.distance(a.x, a.y, b.x, b.y) * t);
+}
+
 utils.getLines = function(ctx, text, maxWidth) {
 	var words = text.split(" ");
 	var lines = [];

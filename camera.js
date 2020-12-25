@@ -87,7 +87,7 @@
 			var elapsed = time - camera.slowpanstarttime;
 			var distance = utils.distance(camera.slowpanstartX, camera.slowpanstartY, camera.targetX, camera.targetY);
 			var pixelsmoved = (elapsed / 1000) * gamesettings.slowpanspeed;
-			console.log(camera.targetX + " " + camera.targetY);
+			//console.log(camera.targetX + " " + camera.targetY);
 			if (pixelsmoved >= distance) {
 				camera.actualX = camera.targetX;
 				camera.actualY = camera.targetY;

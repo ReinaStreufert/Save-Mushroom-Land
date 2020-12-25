@@ -107,7 +107,7 @@
 					gamestate.level.Initialize();
 					env.Initialize();
 					sounds.LoadAll();
-					music.Begin();
+					//music.Begin();
 					utils.openFullscreen();
 					gamestate.ui = "play";
 				}

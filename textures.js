@@ -40,6 +40,18 @@
 	    name: "mushroom4",
 	    src: "/mushrooms/mushroom_4.png"
 	  },
+		{
+			name: "mushroom5stump",
+			src: "/mushrooms/mushroom_5_stump.png"
+		},
+		{
+			name: "mushroom5top",
+			src: "/mushrooms/mushroom_5_top.png"
+		},
+		{
+			name: "mushroom5",
+			src: "/mushrooms/mushroom_5.png"
+		},
 	  {
 	    name: "cloud1",
 	    src: "/env/cloud_1.png"

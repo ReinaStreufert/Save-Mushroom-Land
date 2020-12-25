@@ -31,5 +31,7 @@ window.gamesettings = {
 	dialogborderwidth: 10,
 	dialogheight: 250,
 	dialogendtext: "Press ENTER to continue...",
-	dialogtextinterval: 25 // interval in milliseconds
+	dialogtextinterval: 25, // interval in milliseconds
+	fallingmushroomanimationlength: 2000, // length in milliseconds
+	fallingmushroomanimationcurve: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 1, y: 1}]
 }

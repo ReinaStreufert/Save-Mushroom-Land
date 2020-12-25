@@ -165,4 +165,29 @@
 			froggi.tongue = 0;
 		}
 	}
+
+	ents.fallingmushroom = {};
+	let fallingmushroom = ents.fallingmushroom;
+	fallingmushroom.ReceiveKeyUpdates = true;
+	fallingmushroom.Dead = false;
+	fallingmushroom.x = 0;
+	fallingmushroom.y = 0;
+	fallingmushroom.animationstart = null;
+	fallingmushroom.StartAnimation = function(time) {
+		fallingmushroom.animationstart = time;
+	}
+	fallingmushroom.Do = function(ctx, time) {
+		if (animationstart != null) {
+			var stumprect = camera.PlaceTexture(textures.mushroom5stump, fallingmushroom.x, fallingmushroom.y, 0, 1);
+			ctx.drawImage(textures.mushroom5stump, stumprect.x, stumprect.y, stumprect.width, stumprect.height);
+			var elapsed = time - fallingmushroom.animationstart;
+			if (elapsed < gamesettings.fallingmushroomanimationlength) {
+				var progress = elapsed / gamesettings.fallingmushroomanimationlength;
+				var progressCurved = utils.calculatecubicbezier(gamesettings.fallingmushroomanimationcurve, progress).y;
+			}
+		} else {
+			var rect = camera.PlaceTexture(textures.mushroom5, fallingmushroom.x, fallingmushroom.y, 0, 1);
+			ctx.drawImage(textures.mushroom5, rect.x, rect.y, rect.width, rect.height);
+		}
+	}
 })();
