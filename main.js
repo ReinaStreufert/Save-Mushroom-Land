@@ -43,7 +43,9 @@
 			}
 			for (let i = 0; i < gamestate.level.ents.length; i++) {
 				let ent = gamestate.level.ents[i];
-				ent.Do(ctx, time);
+				if (!ent.Dead) {
+					ent.Do(ctx, time);
+				}
 			}
 			dialog.Do(ctx, time);
 		} else if (gamestate.ui == "load") {

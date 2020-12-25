@@ -80,6 +80,7 @@
 	ents.froggi = {};
 	let froggi = ents.froggi;
 	froggi.ReceiveKeyUpdates = true;
+	froggi.Dead = false;
 	froggi.direction = 0;
 	froggi.jumping = false;
 	froggi.jumprequest = false;
@@ -128,7 +129,8 @@
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
 		if (froggi.y < gamesettings.froggideaththreshold) {
-			gamestate.level.Reset();
+			gamestate.level.OnDeath();
+			froggi.Dead = true;
 		}
 
 

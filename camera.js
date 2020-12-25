@@ -31,6 +31,10 @@
 		return ((canvas.height / camera.actualZoom) / 2);
 	}
 
+	camera.YZero = function() {
+		return calculateYZero();
+	}
+
 	camera.SetFocus = function(ent, zoom) {
 		camera.focus = ent;
 		camera.targetZoom = zoom;
@@ -55,6 +59,8 @@
 		camera.slowpanstarttime = null;
 		camera.targetX = x;
 		camera.targetY = y;
+		camera.slowpanstartX = camera.actualX;
+		camera.slowpanstartY = camera.actualY;
 		camera.targetZoom = zoom;
 		camera.slowpanondestreached = ondestinationreached;
 		camera.mode = "slowpan";
@@ -81,11 +87,10 @@
 			var elapsed = time - camera.slowpanstarttime;
 			var distance = utils.distance(camera.slowpanstartX, camera.slowpanstartY, camera.targetX, camera.targetY);
 			var pixelsmoved = (elapsed / 1000) * gamesettings.slowpanspeed;
-
+			console.log(camera.targetX + " " + camera.targetY);
 			if (pixelsmoved >= distance) {
 				camera.actualX = camera.targetX;
 				camera.actualY = camera.targetY;
-				camera.targetZoom = zoom;
 				camera.mode = "fixedpoint";
 				camera.slowpanondestreached();
 			} else {

@@ -1,9 +1,11 @@
 (function() {
 	window.levels = {};
 
-	levels.testlvl = {};
-	let testlvl = levels.testlvl;
-	testlvl.Initialize = function() {
+	levels.intro = {};
+	let intro = levels.intro;
+	intro.Initialize = function() {
+		intro.firstdeath = true;
+
 		ents.froggi.x = 0;
 		ents.froggi.y = 91 * gamesettings.basescalefactor;
 
@@ -30,6 +32,7 @@
 		mushroom3.trigger = false;
 		mushroom3.OnTrigger = function() {
 			ents.froggi.ReceiveKeyUpdates = false;
+			ents.froggi.direction = 0;
 			dialog.QueueDialog("ok so that mf to the right of you is like wind nd it'll propel you upwards :)");
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
@@ -43,20 +46,40 @@
 		mushroom4.platformleft = mushroom4.x - (60 * gamesettings.basescalefactor);
 		mushroom4.platformright = mushroom4.x + (60 * gamesettings.basescalefactor);
 
+		var mushroom5 = {};
+		mushroom5.texture = textures.mushroom1;
+		mushroom5.x = 380 * gamesettings.basescalefactor;
+		mushroom5.platformy = 91 * gamesettings.basescalefactor;
+		mushroom5.platformleft = mushroom5.x - (55 * gamesettings.basescalefactor);
+		mushroom5.platformright = mushroom5.x + (55 * gamesettings.basescalefactor);
+		mushroom5.trigger = false;
+		mushroom5.OnTrigger = function() {
+			ents.froggi.ReceiveKeyUpdates = false;
+			ents.froggi.direction = 0;
+			camera.SetSlowPan(600 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
+				dialog.QueueDialog("uh-oh, looks like the LEAGUE OF MUSHROOM HATERS are getting more mushrooms cut down");
+				dialog.QueueDialog("they're literally destroying your home. smh my head [insert partially-ironic eye roll emoji]");
+				dialog.QueueDialog("yk what, you're fed up w this bullshit, you should just kill them bitches");
+				dialog.QueueDialog("it's time to fight the mushroom haters.");
+			});
+		}
+
 
 		var wind1 = wind.new(210 * gamesettings.basescalefactor);
 
-		testlvl.ents = [ents.froggi];
-		testlvl.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4];
-		testlvl.winds = [wind1];
+		intro.ents = [ents.froggi];
+		intro.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4, mushroom5];
+		intro.winds = [wind1];
 
 		camera.SetFocus(ents.froggi, 1);
 		ents.froggi.ReceiveKeyUpdates = false;
+		ents.froggi.direction = 0;
 		window.setTimeout(function() {
 			dialog.QueueDialog("omg hi you look so pretty !! [insert bottom emoji]");
-			dialog.QueueDialog("ok so this is mushroom land and you're a froggi");
+			dialog.QueueDialog("ok so this is mushroom land and you're a froggi :))");
 			dialog.QueueDialog("in a sec you'll be able to use SPACE or W to jump nd then A and D to jump left and right or move while in the air");
-			dialog.QueueDialog("nd yeah you can hop between mushrooms and stuff so yeah try it ilyyy");
+			dialog.QueueDialog("you can use RIGHT ARROW and LEFT ARROW to stick your tongue out which will be used for attacking later");
+			dialog.QueueDialog("nd yeah you can hop between mushrooms and stuff so yeah try it ilyyy <3");
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 			}
@@ -64,12 +87,25 @@
 		//camera.actualX = ents.froggi.x;
 		//camera.actualY = ents.froggi.y;
 	}
-	testlvl.Reset = function() {
+	intro.Reset = function() {
+		ents.froggi.Dead = false;
 		ents.froggi.x = 0;
 		ents.froggi.y = 91 * gamesettings.basescalefactor;
 	}
+	intro.OnDeath = function() {
+		if (intro.firstdeath) {
+			dialog.QueueDialog("oh wack you died :((");
+			dialog.QueueDialog("dw tho you'll just respawn nd it's cool :)");
+			intro.firstdeath = false;
+		} else {
+			dialog.QueueDialog("You died...");
+		}
+		dialog.OnQueueDepleted = function() {
+			intro.Reset();
+		}
+	}
 
 	levels.levellist = [
-		levels.testlvl
+		levels.intro
 	];
 })();
