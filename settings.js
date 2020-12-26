@@ -36,5 +36,9 @@ window.gamesettings = {
 	fallingmushroomanimationcurve: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 1, y: 1}],
 	fallingmushroomendingy: -200,
 	fallingmushroomendingangle: 90 * Math.PI / 180,
-	engineerswitchinterval: 100
+	engineerswitchinterval: 100,
+	cutscenemarkheight: 200,
+	cutscenemarkalpha: 0.5,
+	cutscenemarkanimationlength: 1000,
+	cutscenemarkanimationcurve: [{x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}],
 }

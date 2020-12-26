@@ -47,6 +47,7 @@
 					ent.Do(ctx, time);
 				}
 			}
+			ui.Do(ctx, time);
 			dialog.Do(ctx, time);
 		} else if (gamestate.ui == "load") {
 			ctx.fillStyle = "#000000";

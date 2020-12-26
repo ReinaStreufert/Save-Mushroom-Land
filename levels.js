@@ -56,13 +56,17 @@
 		mushroom5.OnTrigger = function() {
 			ents.froggi.ReceiveKeyUpdates = false;
 			ents.froggi.direction = 0;
+			ui.StartCutScene();
 			camera.SetSlowPan(550 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
 				ents.fallingmushroom.StartAnimation();
 				camera.SetSlowPan(600 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
-					dialog.QueueDialog("uh-oh, looks like the LEAGUE OF MUSHROOM HATERS are getting more mushrooms cut down");
-					dialog.QueueDialog("they're literally destroying your home. smh my head [insert partially-ironic eye roll emoji]");
-					dialog.QueueDialog("yk what, you're fed up w this bullshit, you should just kill them bitches");
-					dialog.QueueDialog("it's time to fight the mushroom haters.");
+					ui.EndCutScene();
+					window.setTimeout(function() {
+						dialog.QueueDialog("uh-oh, looks like the LEAGUE OF MUSHROOM HATERS are getting more mushrooms cut down");
+						dialog.QueueDialog("they're literally destroying your home. smh my head [insert partially-ironic eye roll emoji]");
+						dialog.QueueDialog("yk what, you're fed up w this bullshit, you should just kill them bitches");
+						dialog.QueueDialog("it's time to fight the mushroom haters.");
+					}, gamesettings.cutscenemarkanimationlength);
 				})
 			});
 		}
