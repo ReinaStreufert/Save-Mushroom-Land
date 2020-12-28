@@ -22,6 +22,7 @@
 		}
 		var mushrooms = gamestate.level.mushrooms;
 		var inair = true;
+		ent.currentmushroom = null;
 		for (let i = 0; i < mushrooms.length; i++) {
 			let mushroom = mushrooms[i];
 			if (mushroom.platformleft <= entleft && mushroom.platformright >= entright && ent.y >= mushroom.platformy && (ent.y + (ent.yvel * elapsedseconds)) < mushroom.platformy) {
@@ -29,6 +30,7 @@
 					mushroom.OnTrigger();
 					mushroom.trigger = true;
 				}
+				ent.currentmushroom = mushroom;
 				inair = false;
 				ent.yvel = 0;
 				ent.jumping = false;
@@ -85,6 +87,7 @@
 	froggi.jumping = false;
 	froggi.jumprequest = false;
 	froggi.inair = false;
+	froggi.currentmushroom = null;
 	froggi.x = 0;
 	froggi.y = 0;
 	froggi.width = 20 * gamesettings.basescalefactor;
@@ -241,5 +244,120 @@
 		}
 		let texRect = camera.PlaceTexture(usedTexture, engineer.x, engineer.y, 0, 1);
 		ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
+	}
+
+	ents.benshapiro = {};
+	let benshapiro = ents.benshapiro;
+	benshapiro.ReceiveKeyUpdates = false;
+	benshapiro.Dead = false;
+	benshapiro.AIEnabled = false;
+	benshapiro.direction = 0;
+	benshapiro.facing = -1;
+	benshapiro.jumping = false;
+	benshapiro.jumprequest = false;
+	benshapiro.inair = false;
+	benshapiro.currentmushroom = null;
+	benshapiro.punch = false;
+	benshapiro.x = 0;
+	benshapiro.y = 0;
+	benshapiro.width = 9 * gamesettings.basescalefactor;
+	benshapiro.yvel = 0;
+	benshapiro.movespeed = gamesettings.entdefaultmovespeed;
+	benshapiro.gravity = gamesettings.gravity;
+	benshapiro.jumppower = gamesettings.entenemyjumppower;
+	benshapiro.lasttime = null;
+	benshapiro.walkcycle = 0;
+	benshapiro.lastwalk = 0;
+
+	benshapiro.Do = function(ctx, time) {
+		doPhysics(benshapiro, time);
+		if (benshapiro.AIEnabled) {
+			benshapiro.punch = false;
+			if (Math.abs(ents.froggi.x - benshapiro.x) >= gamesettings.minaifollowdistance) {
+				if (!benshapiro.inair) {
+					if (benshapiro.x < ents.froggi.x) {
+						benshapiro.direction = 1;
+						benshapiro.facing = 1;
+					} else if (benshapiro.x > ents.froggi.x) {
+						benshapiro.direction = -1;
+						benshapiro.facing = -1;
+					}
+				}
+			} else {
+				if (!benshapiro.inair) {
+					benshapiro.direction = 0;
+					if (benshapiro.x < ents.froggi.x) {
+						benshapiro.facing = 1;
+					} else if (benshapiro.x > ents.froggi.x) {
+						benshapiro.facing = -1;
+					}
+					if (benshapiro.y < ents.froggi.y) {
+						benshapiro.jumprequest = true;
+					}
+				}
+				benshapiro.punch = true;
+			}
+		} else {
+			benshapiro.direction = 0;
+		}
+
+		let usedTex;
+		let offset = 0;
+
+		if (benshapiro.direction != 0 && !benshapiro.inair) {
+			let walkelapsed = time - benshapiro.lastwalk;
+			if (walkelapsed > gamesettings.walkcycleinterval) {
+				benshapiro.walkcycle++;
+				if (benshapiro.walkcycle > 3) {
+					benshapiro.walkcycle = 0;
+				}
+				benshapiro.lastwalk = time;
+
+				if (benshapiro.currentmushroom != null) {
+					if (benshapiro.direction == -1 && benshapiro.x <= benshapiro.currentmushroom.platformleft + (gamesettings.jumppoint * gamesettings.basescalefactor)) {
+						benshapiro.jumprequest = true;
+					}
+					if (benshapiro.direction == 1 && benshapiro.x >= benshapiro.currentmushroom.platformright - (gamesettings.jumppoint * gamesettings.basescalefactor)) {
+						benshapiro.jumprequest = true;
+					}
+				}
+			}
+		} else {
+			benshapiro.walkcycle = 0;
+		}
+
+		if (benshapiro.facing < 0) {
+			if (benshapiro.walkcycle == 0) {
+				if (benshapiro.punch) {
+					usedTex = textures.benshapiropunchleft;
+					offset = -3 * gamesettings.basescalefactor;
+				} else {
+					usedTex = textures.benshapirostillleft;
+				}
+			} else if (benshapiro.walkcycle == 1 || benshapiro.walkcycle == 3) {
+				usedTex = textures.benshapirowalk1left;
+			} else if (benshapiro.walkcycle == 2) {
+				usedTex = textures.benshapirowalk2left;
+			}
+		} else if (benshapiro.facing > 0) {
+			if (benshapiro.walkcycle == 0) {
+				if (benshapiro.punch) {
+					usedTex = textures.benshapiropunchright;
+					offset = 3 * gamesettings.basescalefactor;
+				} else {
+					usedTex = textures.benshapirostillright;
+				}
+			} else if (benshapiro.walkcycle == 1 || benshapiro.walkcycle == 3) {
+				usedTex = textures.benshapirowalk1right;
+			} else if (benshapiro.walkcycle == 2) {
+				usedTex = textures.benshapirowalk2right;
+			}
+		}
+
+		var rect = camera.PlaceTexture(usedTex, benshapiro.x + offset, benshapiro.y, 0, 1);
+
+		if (!doOffscreen(benshapiro, rect, ctx)) {
+			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
+		}
 	}
 })();

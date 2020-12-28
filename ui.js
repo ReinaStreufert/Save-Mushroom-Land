@@ -111,6 +111,7 @@
 			if (fadeelapsed >= gamesettings.fadelength) {
 				if (ui.event) {
 					ui.event();
+					ui.event = null;
 				}
 			}
 		}

@@ -91,6 +91,38 @@
 		{
 			name: "countdown1",
 			src: "/misc/countdown_1.png"
+		},
+		{
+			name: "benshapirostillright",
+			src: "/enemies/benshapiro/ben_shapiro_still.png"
+		},
+		{
+			name: "benshapiropunchright",
+			src: "/enemies/benshapiro/ben_shapiro_punch.png"
+		},
+		{
+			name: "benshapirowalk1right",
+			src: "/enemies/benshapiro/ben_shapiro_walk_1.png"
+		},
+		{
+			name: "benshapirowalk2right",
+			src: "/enemies/benshapiro/ben_shapiro_walk_2.png"
+		},
+		{
+			name: "benshapirostillleft",
+			src: "/enemies/benshapiro/ben_shapiro_still_left.png"
+		},
+		{
+			name: "benshapiropunchleft",
+			src: "/enemies/benshapiro/ben_shapiro_punch_left.png"
+		},
+		{
+			name: "benshapirowalk1left",
+			src: "/enemies/benshapiro/ben_shapiro_walk_1_left.png"
+		},
+		{
+			name: "benshapirowalk2left",
+			src: "/enemies/benshapiro/ben_shapiro_walk_2_left.png"
 		}
 	];
 

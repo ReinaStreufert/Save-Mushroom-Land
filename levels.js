@@ -129,6 +129,9 @@
 	benshapiro.Initialize = function() {
 		ents.froggi.x = 0;
 		ents.froggi.y = 56 * gamesettings.basescalefactor;
+		ents.benshapiro.x = 390 * gamesettings.basescalefactor;
+		ents.benshapiro.y = 102 * gamesettings.basescalefactor;
+		ents.benshapiro.AIEnabled = false;
 		env.skytype = "sunset";
 
 		var mushroom1 = {};
@@ -166,24 +169,25 @@
 		mushroom5.platformleft = mushroom5.x - (60 * gamesettings.basescalefactor);
 		mushroom5.platformright = mushroom5.x + (60 * gamesettings.basescalefactor);
 
-		benshapiro.ents = [ents.froggi];
+		benshapiro.ents = [ents.benshapiro, ents.froggi];
 		benshapiro.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4, mushroom5];
 		benshapiro.winds = [];
 
-		camera.SetFocus(ents.froggi, 1);
+		camera.SetFocus(ents.benshapiro, 1.5);
 		ents.froggi.ReceiveKeyUpdates = false;
 		ents.froggi.direction = 0;
 		window.setTimeout(function() {
 			dialog.QueueDialog("this is BEN SHAPIRO, he's the first mushroom hater >:(");
 			dialog.QueueDialog("like his political arguments, his attacks are v uncreative");
 			dialog.QueueDialog("all he knows how to do is punch. but mmmmm look at those muscles (haha get it im being you)");
-			dialog.QueueDialog("BEN SHAPIRO has 3 hearts, use your tongue to attack him and avoid his punches");
+			dialog.QueueDialog("use your tongue to attack him and avoid his punches");
 			dialog.QueueDialog("you can do this baby ily :) <3");
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
+				camera.SetFocus(ents.froggi, 1);
 				window.setTimeout(function() {
 					ui.StartCountdown(function() {
-
+						ents.benshapiro.AIEnabled = true;
 					});
 				}, 500);
 			}
@@ -193,9 +197,12 @@
 		ents.froggi.Dead = false;
 		ents.froggi.x = 0;
 		ents.froggi.y = 56 * gamesettings.basescalefactor;
+		ents.benshapiro.x = 390 * gamesettings.basescalefactor;
+		ents.benshapiro.y = 102 * gamesettings.basescalefactor;
+		ents.benshapiro.AIEnabled = false;
 		window.setTimeout(function() {
 			ui.StartCountdown(function() {
-
+				ents.benshapiro.AIEnabled = true;
 			});
 		}, 500);
 	}
@@ -214,12 +221,15 @@
 	levels.NextLevel = function() {
 		music.Stop();
 		ui.FadeOut(function() {
-			gamestate.levelNum++;
-			gamestate.level = levels.levellist[gamestate.levelNum];
-			gamestate.level.Initialize();
-			ui.FadeIn(function() {
-				music.NextSong();
-			});
+			dialog.QueueDialog("Your progress has been saved...");
+			dialog.OnQueueDepleted = function() {
+				gamestate.levelNum++;
+				gamestate.level = levels.levellist[gamestate.levelNum];
+				gamestate.level.Initialize();
+				ui.FadeIn(function() {
+					music.NextSong();
+				});
+			}
 		});
 	}
 })();

@@ -3,10 +3,11 @@ window.gamesettings = {
 	cameralerpspeed: 0.1,
 	slowpanspeed: 100, // in pixels per second
 	skycolorday: "#1FAEEB",
-	skycolorsunset: ["#67748C", "#E67F7A"],
+	skycolorsunset: ["#1FAEEB", "#E67F7A"],
 	entdefaultmovespeed: 500,
 	gravity: 2000,
 	entdefaultjumppower: 1000,
+	entenemyjumppower: 800,
 	froggideaththreshold: -1500,
 	minclouds: 3,
 	maxclouds: 3,
@@ -42,5 +43,8 @@ window.gamesettings = {
 	cutscenemarkalpha: 0.5,
 	cutscenemarkanimationlength: 1000,
 	cutscenemarkanimationcurve: [{x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}],
-	fadelength: 500
+	fadelength: 500,
+	walkcycleinterval: 125,
+	jumppoint: 30,
+	minaifollowdistance: 120
 }
