@@ -65,6 +65,10 @@
 	    src: "/env/sun.png"
 	  },
 		{
+			name: "sunflipped",
+			src: "/env/sun_flipped.png"
+		},
+		{
 			name: "offscreen",
 			src: "/misc/offscreen.png"
 		},
@@ -75,6 +79,18 @@
 		{
 			name: "engineer2",
 			src: "/miscents/engineer_2.png"
+		},
+		{
+			name: "countdown3",
+			src: "/misc/countdown_3.png"
+		},
+		{
+			name: "countdown2",
+			src: "/misc/countdown_2.png"
+		},
+		{
+			name: "countdown1",
+			src: "/misc/countdown_1.png"
 		}
 	];
 

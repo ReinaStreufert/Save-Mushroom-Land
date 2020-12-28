@@ -26,22 +26,23 @@
 	  }
 	}
 	window.music = {};
-	music.Begin = function() {
+	music.currentsongNum = -1;
+	music.currentsong = null;
+	music.Initialize = function() {
 		music.Playlist = [
 			sounds.catskevin,
 			sounds.linehook,
 			sounds.fingers
 		];
-		music.CurrentSong = 0;
-		for (let i = 0; i < music.Playlist.length; i++) {
-			let song = music.Playlist[i];
-			song.onended = function() {
-				music.CurrentSong++;
-				if (music.CurrentSong < music.Playlist.length) {
-					music.Playlist[music.CurrentSong].play();
-				}
-			}
+	}
+	music.NextSong = function() {
+		music.currentsongNum++;
+		if (music.currentsongNum < music.Playlist.length) {
+			music.currentsong = music.Playlist[music.currentsongNum];
+			music.currentsong.play();
 		}
-		music.Playlist[0].play();
+	}
+	music.Stop = function() {
+		music.currentsong.pause();
 	}
 })();

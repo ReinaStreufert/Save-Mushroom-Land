@@ -28,8 +28,9 @@
 		requestAnimationFrame(loop);
 
 		if (gamestate.ui == "play") {
-			ctx.fillStyle = gamesettings.skycolor;
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			//ctx.fillStyle = gamesettings.skycolor;
+			//ctx.fillRect(0, 0, canvas.width, canvas.height);
+			env.DoBackground(ctx);
 			camera.Do(time);
 			env.Do(ctx, time);
 			for (let i = 0; i < gamestate.level.winds.length; i++) {
@@ -47,6 +48,7 @@
 					ent.Do(ctx, time);
 				}
 			}
+			env.DoOverlay(ctx);
 			ui.Do(ctx, time);
 			dialog.Do(ctx, time);
 		} else if (gamestate.ui == "load") {
@@ -74,6 +76,7 @@
 			} else {
 				ctx.fillText(" Extras", canvas.width / 2 - 50, canvas.height / 2 + 45);
 			}
+			ui.Do(ctx, time);
 		}
 	}
 
@@ -105,10 +108,12 @@
 				}
 			} else if (e.code == "Enter") {
 				if (gamestate.menuItem == 0) {
+					//levels.NextLevel();
 					gamestate.level.Initialize();
 					env.Initialize();
 					sounds.LoadAll();
-					music.Begin();
+					music.Initialize();
+					music.NextSong();
 					utils.openFullscreen();
 					gamestate.ui = "play";
 				}

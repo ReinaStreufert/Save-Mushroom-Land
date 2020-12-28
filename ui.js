@@ -1,16 +1,38 @@
 (function() {
 	window.ui = {};
 
+	ui.event = null;
+
 	ui.cutscenestart = null;
 	ui.cutsceneend = null;
 	ui.cutscenestartrequest = false;
 	ui.cutsceneendrequest = false;
+
+	ui.faderequest = false;
+	ui.fadestart = null;
+	ui.fadetype = 0;
+
+	ui.countdownstart = null;
 
 	ui.StartCutScene = function() {
 		ui.cutscenestartrequest = true;
 	};
 	ui.EndCutScene = function() {
 		ui.cutsceneendrequest = true;
+	};
+	ui.FadeOut = function(oncomplete) {
+		ui.faderequest = true;
+		ui.event = oncomplete;
+		ui.fadetype = 0;
+	};
+	ui.FadeIn = function(oncomplete) {
+		ui.faderequest = true;
+		ui.event = oncomplete;
+		ui.fadetype = 1;
+	};
+	ui.StartCountdown = function(oncomplete) {
+		ui.event = oncomplete;
+		ui.countdownrequest = true;
 	};
 	ui.Do = function(ctx, time) {
 		if (ui.cutscenestartrequest) {
@@ -64,6 +86,62 @@
 				ctx.fillRect(0, canvas.height - gamesettings.cutscenemarkheight, canvas.width, gamesettings.cutscenemarkheight);
 			} else {
 				cutsceneend = null;
+			}
+		}
+
+		if (ui.faderequest) {
+			ui.faderequest = false;
+			ui.fadestart = time;
+		}
+		if (ui.fadestart != null) {
+			let fadeelapsed = time - ui.fadestart;
+			let alpha = 1;
+			if (fadeelapsed < gamesettings.fadelength) {
+				alpha = fadeelapsed / gamesettings.fadelength;
+			}
+			if (ui.fadetype == 1) {
+				alpha = 1 - alpha;
+			}
+			if (ui.fadetype == 1 && fadeelapsed > gamesettings.fadelength) {
+				ui.fadestart = null;
+			} else {
+				ctx.fillStyle = "rgba(0, 0, 0, " + alpha + ")";
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+			}
+			if (fadeelapsed >= gamesettings.fadelength) {
+				if (ui.event) {
+					ui.event();
+				}
+			}
+		}
+
+		if (ui.countdownrequest) {
+			ui.countdownrequest = false;
+			ui.countdownstart = time;
+		}
+		if (ui.countdownstart != null) {
+			let countdownelapsed = time - ui.countdownstart;
+			let tex = null;
+			let alpha;
+			if (countdownelapsed > 4500) {
+				if (ui.event) {
+					ui.event();
+				}
+				ui.countdownstart = null;
+			} else if (countdownelapsed >= 3000) {
+				tex = textures.countdown1;
+				alpha = 1 - ((countdownelapsed - 3000) / 1500);
+			} else if (countdownelapsed >= 1500) {
+				tex = textures.countdown2;
+				alpha = 1 - ((countdownelapsed - 1500) / 1500);
+			} else if (countdownelapsed >= 0) {
+				tex = textures.countdown3;
+				alpha = 1 - (countdownelapsed / 1500);
+			}
+			if (tex != null) {
+				ctx.globalAlpha = alpha;
+				ctx.drawImage(tex, canvas.width / 2 - (tex.width * gamesettings.basescalefactor) / 2, canvas.height / 2 - (tex.height * gamesettings.basescalefactor) / 2, tex.width * gamesettings.basescalefactor, tex.height * gamesettings.basescalefactor);
+				ctx.globalAlpha = 1;
 			}
 		}
 	}

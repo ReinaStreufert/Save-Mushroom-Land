@@ -2,7 +2,8 @@ window.gamesettings = {
 	basescalefactor: 6,
 	cameralerpspeed: 0.1,
 	slowpanspeed: 100, // in pixels per second
-	skycolor: "#1FAEEB",
+	skycolorday: "#1FAEEB",
+	skycolorsunset: ["#67748C", "#E67F7A"],
 	entdefaultmovespeed: 500,
 	gravity: 2000,
 	entdefaultjumppower: 1000,
@@ -41,4 +42,5 @@ window.gamesettings = {
 	cutscenemarkalpha: 0.5,
 	cutscenemarkanimationlength: 1000,
 	cutscenemarkanimationcurve: [{x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 1}],
+	fadelength: 500
 }

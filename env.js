@@ -1,6 +1,8 @@
 (function() {
 	window.env = {};
 
+	env.skytype = "day"; // day, sunset, night, sunrise
+
 	let cloudTextures = []
 
 	let generateCloud = function(initial) {
@@ -27,13 +29,29 @@
 			generateCloud(true);
 		}
 	}
+	env.DoBackground = function(ctx) {
+		if (env.skytype == "day") {
+			ctx.fillStyle = gamesettings.skycolorday;
+		} else if (env.skytype == "sunset") {
+			let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+			gradient.addColorStop(0, gamesettings.skycolorsunset[0]);
+			gradient.addColorStop(1, gamesettings.skycolorsunset[1]);
+			ctx.fillStyle = gradient;
+		}
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+	}
 	env.Do = function(ctx, time) {
 		if (env.lasttime == null) {
 			env.lasttime = time;
 		}
 		let elapsed = time - env.lasttime;
-		let rect = camera.PlaceFixedTexture(textures.sun, 0, canvas.height, -1, 1);
-		ctx.drawImage(textures.sun, rect.x, rect.y, rect.width, rect.height);
+		if (env.skytype == "sunset") {
+			let rect = camera.PlaceFixedTexture(textures.sunflipped, 0, 0, -1, -1);
+			ctx.drawImage(textures.sunflipped, rect.x, rect.y, rect.width, rect.height);
+		} else {
+			let rect = camera.PlaceFixedTexture(textures.sun, 0, canvas.height, -1, 1);
+			ctx.drawImage(textures.sun, rect.x, rect.y, rect.width, rect.height);
+		}
 
 		for (let i = 0; i < env.clouds.length; i++) {
 			let cloud = env.clouds[i];
@@ -52,5 +70,20 @@
 			}
 		}
 		env.lasttime = time;
+	}
+	env.DoOverlay = function(ctx) {
+		if (env.skytype == "sunset") {
+			let gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+			gradient.addColorStop(0, gamesettings.skycolorsunset[0]);
+			gradient.addColorStop(1, gamesettings.skycolorsunset[1]);
+			ctx.fillStyle = gradient;
+			ctx.globalAlpha = 0.7;
+			ctx.globalCompositeOperation = "multiply";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.globalAlpha = 1;
+			ctx.globalCompositeOperation = "source-over";
+			ctx.fillStyle = "#00000022";
+			//ctx.fillRect(0, 0, canvas.width, canvas.height);
+		}
 	}
 })();
