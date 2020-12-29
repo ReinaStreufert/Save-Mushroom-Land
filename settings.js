@@ -7,7 +7,7 @@ window.gamesettings = {
 	entdefaultmovespeed: 500,
 	gravity: 2000,
 	entdefaultjumppower: 1000,
-	entenemyjumppower: 800,
+	entenemyjumppower: 900,
 	froggideaththreshold: -1500,
 	minclouds: 3,
 	maxclouds: 3,

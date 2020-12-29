@@ -469,4 +469,28 @@
 	benshapiro.Height = function() {
 		return 23 * gamesettings.basescalefactor;
 	}
+
+	ents.edsheeran = {};
+	let edsheeran = ents.edsheeran;
+	edsheeran.ReceiveKeyUpdates = false;
+	edsheeran.Dead = false;
+	edsheeran.deadInternal = false;
+	edsheeran.AIEnabled = false;
+	edsheeran.Health = 1;
+	edsheeran.direction = 0;
+	edsheeran.facing = -1;
+	edsheeran.jumping = false;
+	edsheeran.jumprequest = false;
+	edsheeran.inair = false;
+	edsheeran.currentmushroom = null;
+	edsheeran.x = 0;
+	edsheeran.y = 0;
+	edsheeran.width = 9 * gamesettings.basescalefactor;
+	edsheeran.yvel = 0;
+	edsheeran.movespeed = gamesettings.entdefaultmovespeed;
+	edsheeran.gravity = gamesettings.gravity;
+	edsheeran.jumppower = gamesettings.entenemyjumppower;
+	edsheeran.lasttime = null;
+	edsheeran.walkcycle = 0;
+	edsheeran.lastwalk = 0;
 })();

@@ -127,6 +127,26 @@
 		{
 			name: "benshapirodead",
 			src: "/enemies/benshapiro/ben_shapiro_dead.png"
+		},
+		{
+			name: "edsheeranstillright",
+			src: "/enemies/edsheeran/ed_sheeran_still.png"
+		},
+		{
+			name: "edsheeranstillleft",
+			src: "/enemies/edsheeran/ed_sheeran_still_left.png"
+		},
+		{
+			name: "edsheeranwalk1right",
+			src: "/enemies/edsheeran/ed_sheeran_walk_1.png"
+		},
+		{
+			name: "edsheeranwalk1left",
+			src: "/enemies/edsheeran/ed_sheeran_walk_1.png"
+		},
+		{
+			name: "edsheeranwalk2left",
+			src: "/enemies/edsheeran/ed_sheeran_walk_2_left.png"
 		}
 	];
 
