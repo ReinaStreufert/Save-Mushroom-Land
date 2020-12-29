@@ -89,6 +89,25 @@
 			}
 		}
 
+		if (gamestate.ui == "play") {
+			for (let i = 0; i < gamestate.level.ents.length; i++) {
+				let ent = gamestate.level.ents[i];
+				if (ent.Health && ent.Health < 1 && !ent.Dead) {
+					let rect = camera.PlaceRect(ent.x, ent.y + ent.Height() + gamesettings.healthbaroffset, gamesettings.healthbarwidth, gamesettings.healthbarheight, 0, 1);
+					//console.log(rect.x + ' ' + rect.y);
+					ctx.strokeStyle = gamesettings.healthbaroutlinecolor;
+					ctx.lineWidth = gamesettings.healthbaroutlinewidth;
+					ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+					ctx.fillStyle = gamesettings.healthbaroutlinecolor;
+					ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+
+					let healthrect = camera.PlaceRect(ent.x - gamesettings.healthbarwidth / 2, ent.y + ent.Height() + gamesettings.healthbaroffset, gamesettings.healthbarwidth * ent.Health, gamesettings.healthbarheight, -1, 1);
+					ctx.fillStyle = gamesettings.healthbarcolor;
+					ctx.fillRect(healthrect.x, healthrect.y, healthrect.width, healthrect.height);
+				}
+			}
+		}
+
 		if (ui.faderequest) {
 			ui.faderequest = false;
 			ui.fadestart = time;

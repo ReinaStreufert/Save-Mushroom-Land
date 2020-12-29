@@ -123,6 +123,10 @@
 		{
 			name: "benshapirowalk2left",
 			src: "/enemies/benshapiro/ben_shapiro_walk_2_left.png"
+		},
+		{
+			name: "benshapirodead",
+			src: "/enemies/benshapiro/ben_shapiro_dead.png"
 		}
 	];
 

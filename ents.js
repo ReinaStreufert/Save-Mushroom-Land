@@ -83,6 +83,7 @@
 	let froggi = ents.froggi;
 	froggi.ReceiveKeyUpdates = true;
 	froggi.Dead = false;
+	froggi.Health = 1;
 	froggi.direction = 0;
 	froggi.jumping = false;
 	froggi.jumprequest = false;
@@ -98,28 +99,30 @@
 	froggi.lasttime = null;
 
 	froggi.tongue = 0;
+	froggi.lasttongue = 0;
 	froggi.Do = function(ctx, time) {
 		doPhysics(froggi, time);
 		if (!froggi.inair && !froggi.jumping && froggi.direction != 0) {
 			froggi.jumprequest = true;
 		}
+		var tongueelapsed = time - froggi.lasttongue;
 		var usedTex;
 		var offset = 0;
 		if (froggi.jumping) {
-			if (froggi.tongue == 1) {
+			if (froggi.tongue == 1 && tongueelapsed <= gamesettings.froggitonguetime) {
 				usedTex = textures.froggijumptongueright;
 				offset = 7 * gamesettings.basescalefactor;
-			} else if (froggi.tongue == -1) {
+			} else if (froggi.tongue == -1 && tongueelapsed <= gamesettings.froggitonguetime) {
 				usedTex = textures.froggijumptongueleft;
 				offset = -7 * gamesettings.basescalefactor;
 			} else {
 				usedTex = textures.froggijump;
 			}
 		} else {
-			if (froggi.tongue == 1) {
+			if (froggi.tongue == 1 && tongueelapsed <= gamesettings.froggitonguetime) {
 				usedTex = textures.froggitongueright
 				offset = 7.5 * gamesettings.basescalefactor;
-			} else if (froggi.tongue == -1) {
+			} else if (froggi.tongue == -1 && tongueelapsed <= gamesettings.froggitonguetime) {
 				usedTex = textures.froggitongueleft;
 				offset = -7.5 * gamesettings.basescalefactor;
 			} else {
@@ -132,13 +135,15 @@
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
 		if (froggi.y < gamesettings.froggideaththreshold) {
-			gamestate.level.OnDeath();
-			froggi.Dead = true;
+			froggi.Kill();
 		}
 
 
 	}
 	froggi.KeyDown = function(key) {
+		if (froggi.Dead) {
+			return;
+		}
 		if (key.code == "Space" || key.code == "KeyW") {
 			froggi.jumprequest = true;
 		} else if (key.code == "KeyD") {
@@ -152,21 +157,75 @@
 				froggi.jumprequest = true;
 			}
 		} else if (key.code == "ArrowRight") {
-			froggi.tongue = 1;
+			if (froggi.lasttime - froggi.lasttongue > gamesettings.froggitonguetime) {
+				froggi.tongue = 1;
+				froggi.lasttongue = froggi.lasttime;
+
+				if (ents.benshapiro.AIEnabled) {
+					if (froggi.x < ents.benshapiro.x) {
+						if (froggi.x + 22 * gamesettings.basescalefactor >= ents.benshapiro.x && (froggi.y + 13 * gamesettings.basescalefactor) > ents.benshapiro.y && (froggi.y + 13 * gamesettings.basescalefactor) < ents.benshapiro.y + ents.benshapiro.Height()) {
+							ents.benshapiro.TakeDamage(gamesettings.froggidamage);
+						}
+					}
+				}
+			}
 		} else if (key.code == "ArrowLeft") {
-			froggi.tongue = -1;
+			if (froggi.lasttime - froggi.lasttongue > gamesettings.froggitonguetime) {
+				froggi.tongue = -1;
+				froggi.lasttongue = froggi.lasttime;
+
+				if (ents.benshapiro.AIEnabled) {
+					if (froggi.x > ents.benshapiro.x) {
+						if (froggi.x - 22 * gamesettings.basescalefactor <= ents.benshapiro.x) {
+							ents.benshapiro.TakeDamage(gamesettings.froggidamage);
+						}
+					}
+				}
+			}
 		}
 	}
 	froggi.KeyUp = function(key) {
+		if (froggi.Dead) {
+			return;
+		}
 		if (key.code == "KeyD" && froggi.direction == 1) {
 			froggi.direction = 0;
 		} else if (key.code == "KeyA" && froggi.direction == -1) {
 			froggi.direction = 0;
-		} else if (key.code == "ArrowRight" && froggi.tongue == 1) {
-			froggi.tongue = 0;
-		} else if (key.code == "ArrowLeft" && froggi.tongue == -1) {
-			froggi.tongue = 0;
 		}
+	}
+	froggi.TestHitbox = function(x, y) {
+		let hitboxrange;
+		if (froggi.jumping) {
+			hitboxrange = {x: froggi.x - 10 * gamesettings.basescalefactor, y: froggi.y, width: 20 * gamesettings.basescalefactor, height: 19 * gamesettings.basescalefactor};
+		} else {
+			hitboxrange = {x: froggi.x - 10 * gamesettings.basescalefactor, y: froggi.y, width: 20 * gamesettings.basescalefactor, height: 16 * gamesettings.basescalefactor};
+		}
+		if (x >= hitboxrange.x && x <= hitboxrange.x + hitboxrange.width && y >= hitboxrange.y && y <= hitboxrange.y + hitboxrange.height) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	froggi.Height = function() {
+		if (froggi.jumping) {
+			return 19 * gamesettings.basescalefactor;
+		} else {
+			return 16 * gamesettings.basescalefactor;
+		}
+	};
+	froggi.TakeDamage = function(health) {
+		froggi.Health -= health;
+		if (froggi.Health < 0.01) {
+			froggi.Health = 0;
+			froggi.Kill();
+		}
+	}
+	froggi.Kill = function() {
+		froggi.Dead = true;
+		froggi.jumprequest = false;
+		froggi.direction = 0;
+		gamestate.level.OnDeath();
 	}
 
 	ents.fallingmushroom = {};
@@ -250,7 +309,9 @@
 	let benshapiro = ents.benshapiro;
 	benshapiro.ReceiveKeyUpdates = false;
 	benshapiro.Dead = false;
+	benshapiro.deadInternal = false;
 	benshapiro.AIEnabled = false;
+	benshapiro.Health = 1;
 	benshapiro.direction = 0;
 	benshapiro.facing = -1;
 	benshapiro.jumping = false;
@@ -258,6 +319,7 @@
 	benshapiro.inair = false;
 	benshapiro.currentmushroom = null;
 	benshapiro.punch = false;
+	benshapiro.lastpunch = 0;
 	benshapiro.x = 0;
 	benshapiro.y = 0;
 	benshapiro.width = 9 * gamesettings.basescalefactor;
@@ -271,8 +333,8 @@
 
 	benshapiro.Do = function(ctx, time) {
 		doPhysics(benshapiro, time);
+		let lastpunchelapsed = time - benshapiro.lastpunch;
 		if (benshapiro.AIEnabled) {
-			benshapiro.punch = false;
 			if (Math.abs(ents.froggi.x - benshapiro.x) >= gamesettings.minaifollowdistance) {
 				if (!benshapiro.inair) {
 					if (benshapiro.x < ents.froggi.x) {
@@ -295,14 +357,45 @@
 						benshapiro.jumprequest = true;
 					}
 				}
-				benshapiro.punch = true;
+				if (benshapiro.direction == 0) {
+					if (ents.froggi.TestHitbox(benshapiro.x + (9 * gamesettings.basescalefactor * benshapiro.facing), benshapiro.y + 8 * gamesettings.basescalefactor)) {
+						if (lastpunchelapsed > gamesettings.benshapiropunchinterval) {
+							benshapiro.lastpunch = time;
+							lastpunchelapsed = 0;
+							ents.froggi.TakeDamage(gamesettings.benshapirodamage);
+						}
+					}
+				}
 			}
 		} else {
 			benshapiro.direction = 0;
 		}
 
+		if (lastpunchelapsed <= gamesettings.benshapiropunchinterval / 2) {
+			benshapiro.punch = true;
+		} else {
+			benshapiro.punch = false;
+		}
+
 		let usedTex;
 		let offset = 0;
+
+		if (benshapiro.currentmushroom != null) {
+			if (benshapiro.direction == -1 && benshapiro.x <= benshapiro.currentmushroom.platformleft + (gamesettings.jumppoint * gamesettings.basescalefactor)) {
+				if (benshapiro.currentmushroom.edgemushroom == -1) {
+					benshapiro.direction = 0;
+				} else {
+					benshapiro.jumprequest = true;
+				}
+			}
+			if (benshapiro.direction == 1 && benshapiro.x >= benshapiro.currentmushroom.platformright - (gamesettings.jumppoint * gamesettings.basescalefactor)) {
+				if (benshapiro.currentmushroom.edgemushroom == 1) {
+					benshapiro.direction = 0;
+				} else {
+					benshapiro.jumprequest = true;
+				}
+			}
+		}
 
 		if (benshapiro.direction != 0 && !benshapiro.inair) {
 			let walkelapsed = time - benshapiro.lastwalk;
@@ -312,15 +405,6 @@
 					benshapiro.walkcycle = 0;
 				}
 				benshapiro.lastwalk = time;
-
-				if (benshapiro.currentmushroom != null) {
-					if (benshapiro.direction == -1 && benshapiro.x <= benshapiro.currentmushroom.platformleft + (gamesettings.jumppoint * gamesettings.basescalefactor)) {
-						benshapiro.jumprequest = true;
-					}
-					if (benshapiro.direction == 1 && benshapiro.x >= benshapiro.currentmushroom.platformright - (gamesettings.jumppoint * gamesettings.basescalefactor)) {
-						benshapiro.jumprequest = true;
-					}
-				}
 			}
 		} else {
 			benshapiro.walkcycle = 0;
@@ -354,10 +438,26 @@
 			}
 		}
 
+		if (benshapiro.deadInternal) {
+			usedTex = textures.benshapirodead;
+		}
+
 		var rect = camera.PlaceTexture(usedTex, benshapiro.x + offset, benshapiro.y, 0, 1);
 
 		if (!doOffscreen(benshapiro, rect, ctx)) {
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
+	}
+	benshapiro.TakeDamage = function(damage) {
+		benshapiro.Health -= damage;
+		if (benshapiro.Health <= 0.01) {
+			benshapiro.deadInternal = true;
+			benshapiro.AIEnabled = false;
+			benshapiro.Health = 1;
+			gamestate.level.OnEnemyDeath();
+		}
+	}
+	benshapiro.Height = function() {
+		return 23 * gamesettings.basescalefactor;
 	}
 })();

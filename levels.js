@@ -129,6 +129,7 @@
 	benshapiro.Initialize = function() {
 		ents.froggi.x = 0;
 		ents.froggi.y = 56 * gamesettings.basescalefactor;
+		ents.froggi.Health = 1;
 		ents.benshapiro.x = 390 * gamesettings.basescalefactor;
 		ents.benshapiro.y = 102 * gamesettings.basescalefactor;
 		ents.benshapiro.AIEnabled = false;
@@ -140,6 +141,7 @@
 		mushroom1.platformy = 56 * gamesettings.basescalefactor;
 		mushroom1.platformleft = mushroom1.x - (40 * gamesettings.basescalefactor);
 		mushroom1.platformright = mushroom1.x + (40 * gamesettings.basescalefactor);
+		mushroom1.edgemushroom = -1;
 
 		var mushroom2 = {};
 		mushroom2.texture = textures.mushroom2;
@@ -147,6 +149,7 @@
 		mushroom2.platformy = 81 * gamesettings.basescalefactor;
 		mushroom2.platformleft = mushroom2.x - (45 * gamesettings.basescalefactor);
 		mushroom2.platformright = mushroom2.x + (45 * gamesettings.basescalefactor);
+		mushroom2.edgemushroom = 0;
 
 		var mushroom3 = {};
 		mushroom3.texture = textures.mushroom1;
@@ -154,6 +157,7 @@
 		mushroom3.platformy = 91 * gamesettings.basescalefactor;
 		mushroom3.platformleft = mushroom3.x - 55 * gamesettings.basescalefactor;
 		mushroom3.platformright = mushroom3.x + 55 * gamesettings.basescalefactor;
+		mushroom3.edgemushroom = 0;
 
 		var mushroom4 = {};
 		mushroom4.texture = textures.mushroom2;
@@ -161,6 +165,7 @@
 		mushroom4.platformy = 81 * gamesettings.basescalefactor;
 		mushroom4.platformleft = mushroom4.x - (45 * gamesettings.basescalefactor);
 		mushroom4.platformright = mushroom4.x + (45 * gamesettings.basescalefactor);
+		mushroom4.edgemushroom = 0;
 
 		var mushroom5 = {};
 		mushroom5.texture = textures.mushroom4;
@@ -168,8 +173,9 @@
 		mushroom5.platformy = 102 * gamesettings.basescalefactor;
 		mushroom5.platformleft = mushroom5.x - (60 * gamesettings.basescalefactor);
 		mushroom5.platformright = mushroom5.x + (60 * gamesettings.basescalefactor);
+		mushroom5.edgemushroom = 1;
 
-		benshapiro.ents = [ents.benshapiro, ents.froggi];
+		benshapiro.ents = [ents.froggi, ents.benshapiro];
 		benshapiro.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4, mushroom5];
 		benshapiro.winds = [];
 
@@ -197,8 +203,10 @@
 		ents.froggi.Dead = false;
 		ents.froggi.x = 0;
 		ents.froggi.y = 56 * gamesettings.basescalefactor;
+		ents.froggi.Health = 1;
 		ents.benshapiro.x = 390 * gamesettings.basescalefactor;
 		ents.benshapiro.y = 102 * gamesettings.basescalefactor;
+		ents.benshapiro.Health = 1;
 		ents.benshapiro.AIEnabled = false;
 		window.setTimeout(function() {
 			ui.StartCountdown(function() {
@@ -207,10 +215,21 @@
 		}, 500);
 	}
 	benshapiro.OnDeath = function() {
+		ents.benshapiro.AIEnabled = false;
 		dialog.QueueDialog("you lost against ben shapiro lmao");
 		dialog.QueueDialog("its cool try again ily");
 		dialog.OnQueueDepleted = function() {
 			benshapiro.Reset();
+		}
+	}
+	benshapiro.OnEnemyDeath = function() {
+		camera.SetFocus(ents.benshapiro, 1.5);
+		ents.froggi.Dead = true;
+		dialog.QueueDialog("AHHH good job baby :)) <3");
+		dialog.QueueDialog("im so proud of you [insert bottom emoji] !!!");
+		dialog.QueueDialog("but you're not done yet. there are 2 more mushroom haters to kill.");
+		dialog.OnQueueDepleted = function() {
+
 		}
 	}
 

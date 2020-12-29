@@ -131,6 +131,37 @@
 		//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
 		return result;
 	}
+	camera.PlaceRect = function(x, y, width, height, xOrigin, yOrigin) {	// origin decides what part of texture the placement point represents, between -1 and 1, -1 is left edge or top edge, 0 is center, 1 is right edge or bottom edge
+		var textureW = width;
+		var textureH = height;
+		var normX = x;
+		var normY = y;
+		if (xOrigin < 0) {
+			normX = x + textureW / 2;
+		} else if (xOrigin > 0) {
+			normX = x - textureW / 2;
+		}
+		if (yOrigin < 0) {
+			normY = y + textureH / 2;
+		} else if (yOrigin > 0) {
+			normY = y - textureH / 2;
+		}
+
+		var screenPt = camera.PlacePoint(normX, normY);
+		var screenX = screenPt.x - textureW / 2;
+		var screenY = (screenPt.y - textureH / 2) - textureH;
+
+		screenX -= canvas.width / 2;
+		screenX *= camera.actualZoom;
+		screenX += canvas.width / 2;
+		screenY -= canvas.height / 2;
+		screenY *= camera.actualZoom;
+		screenY += canvas.height / 2;
+
+		var result = {x: screenX, y: screenY, width: textureW * camera.actualZoom, height: textureH * camera.actualZoom};
+		//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
+		return result;
+	}
 
 	camera.WorldPointToScreenPoint = function(x, y) {
 		screenPt = camera.PlacePoint(x, y);

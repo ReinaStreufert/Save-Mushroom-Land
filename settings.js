@@ -46,5 +46,15 @@ window.gamesettings = {
 	fadelength: 500,
 	walkcycleinterval: 125,
 	jumppoint: 30,
-	minaifollowdistance: 120
+	minaifollowdistance: 100,
+	benshapiropunchinterval: 500,
+	healthbarwidth: 70,
+	healthbaroffset: 30,
+	healthbaroutlinecolor: "black",
+	healthbarcolor: "red",
+	healthbarheight: 8,
+	healthbaroutlinewidth: 10,
+	benshapirodamage: 0.1,
+	froggitonguetime: 500,
+	froggidamage: 0.1
 }
