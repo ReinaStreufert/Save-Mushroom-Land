@@ -6,7 +6,7 @@
 
 	window.gamestate = {};
 	gamestate.ui = "load";
-	gamestate.levelNum = 1;
+	gamestate.levelNum = 0;
 	gamestate.level = levels.levellist[gamestate.levelNum];
 	gamestate.menuItem = 0;
 
