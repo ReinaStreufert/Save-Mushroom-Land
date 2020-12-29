@@ -4,6 +4,7 @@
 	levels.intro = {};
 	let intro = levels.intro;
 	intro.Initialize = function() {
+		sounds.PlaySound(sounds.catskevin);
 		intro.firstdeath = true;
 		env.skytype = "day";
 
@@ -127,6 +128,8 @@
 	levels.benshapiro = {};
 	let benshapiro = levels.benshapiro;
 	benshapiro.Initialize = function() {
+		sounds.PlaySound(sounds.linehook);
+
 		ents.froggi.x = 0;
 		ents.froggi.y = 56 * gamesettings.basescalefactor;
 		ents.froggi.Health = 1;
@@ -229,7 +232,7 @@
 		dialog.QueueDialog("im so proud of you [insert bottom emoji] !!!");
 		dialog.QueueDialog("but you're not done yet. there are 2 more mushroom haters to kill.");
 		dialog.OnQueueDepleted = function() {
-
+			levels.NextLevel();
 		}
 	}
 
@@ -238,15 +241,16 @@
 		levels.benshapiro
 	];
 	levels.NextLevel = function() {
-		music.Stop();
+		sounds.StopAll();
 		ui.FadeOut(function() {
-			dialog.QueueDialog("Your progress has been saved...");
+			gamestate.levelNum++;
+			save.SaveProgress();
+			dialog.QueueDialog("Your progress has been saved... If you wanna stop for now, you may close the tab. You may resume at any time.");
 			dialog.OnQueueDepleted = function() {
-				gamestate.levelNum++;
 				gamestate.level = levels.levellist[gamestate.levelNum];
 				gamestate.level.Initialize();
 				ui.FadeIn(function() {
-					music.NextSong();
+					//gamestate.level.OnFadeIn();
 				});
 			}
 		});

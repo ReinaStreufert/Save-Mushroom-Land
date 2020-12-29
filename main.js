@@ -6,8 +6,9 @@
 
 	window.gamestate = {};
 	gamestate.ui = "load";
-	gamestate.levelNum = 1;
-	gamestate.level = levels.levellist[gamestate.levelNum];
+	//gamestate.levelNum = 1;
+	//gamestate.level = levels.levellist[gamestate.levelNum];
+	save.Restore();
 	gamestate.menuItem = 0;
 
 	textures.LoadAll(() => {
@@ -66,10 +67,14 @@
 			ctx.fillStyle = "#FFFFFF";
 			ctx.fillText("SAVE MUSHROOM LAND", canvas.width / 2, canvas.height / 2 - 15);
 			ctx.textAlign = "left";
+			let playText = "Play";
+			if (!save.FirstTime) {
+				playText = "Resume";
+			}
 			if (gamestate.menuItem == 0) {
-				ctx.fillText(">Play", canvas.width / 2 - 50, canvas.height / 2 + 15);
+				ctx.fillText(">" + playText, canvas.width / 2 - 50, canvas.height / 2 + 15);
 			} else {
-				ctx.fillText(" Play", canvas.width / 2 - 50, canvas.height / 2 + 15);
+				ctx.fillText(" " + playText, canvas.width / 2 - 50, canvas.height / 2 + 15);
 			}
 			if (gamestate.menuItem == 1) {
 				ctx.fillText(">Extras", canvas.width / 2 - 50, canvas.height / 2 + 45);
@@ -109,11 +114,9 @@
 			} else if (e.code == "Enter") {
 				if (gamestate.menuItem == 0) {
 					//levels.NextLevel();
-					gamestate.level.Initialize();
 					env.Initialize();
 					sounds.LoadAll();
-					music.Initialize();
-					music.NextSong();
+					gamestate.level.Initialize();
 					utils.openFullscreen();
 					gamestate.ui = "play";
 				}

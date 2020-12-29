@@ -134,6 +134,9 @@
 		if (!doOffscreen(froggi, rect, ctx)) {
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
+		ctx.fillStyle = "red";
+		//var tonguept = camera.WorldPointToScreenPoint(froggi.x + 24 * gamesettings.basescalefactor * froggi.tongue, froggi.y + (froggi.Height() - 6 * gamesettings.basescalefactor));
+		//ctx.fillRect(tonguept.x - 5, tonguept.y - 5, 10, 10);
 		if (froggi.y < gamesettings.froggideaththreshold) {
 			froggi.Kill();
 		}
@@ -159,11 +162,13 @@
 		} else if (key.code == "ArrowRight") {
 			if (froggi.lasttime - froggi.lasttongue > gamesettings.froggitonguetime) {
 				froggi.tongue = 1;
+				var tonguept = {x: froggi.x + 24 * gamesettings.basescalefactor * froggi.tongue, y: froggi.y + (froggi.Height() - 6 * gamesettings.basescalefactor)};
 				froggi.lasttongue = froggi.lasttime;
 
 				if (ents.benshapiro.AIEnabled) {
 					if (froggi.x < ents.benshapiro.x) {
-						if (froggi.x + 22 * gamesettings.basescalefactor >= ents.benshapiro.x && (froggi.y + 13 * gamesettings.basescalefactor) > ents.benshapiro.y && (froggi.y + 13 * gamesettings.basescalefactor) < ents.benshapiro.y + ents.benshapiro.Height()) {
+						console.log((tonguept.x >= ents.benshapiro.x - ents.benshapiro.width / 2) + ' ' + (tonguept.y >= ents.benshapiro.y) + ' ' + (tonguept.y <= ents.benshapiro.y + ents.benshapiro.Height()));
+						if (tonguept.x >= ents.benshapiro.x - ents.benshapiro.width / 2 && tonguept.y >= ents.benshapiro.y && tonguept.y <= ents.benshapiro.y + ents.benshapiro.Height()) {
 							ents.benshapiro.TakeDamage(gamesettings.froggidamage);
 						}
 					}
@@ -172,11 +177,14 @@
 		} else if (key.code == "ArrowLeft") {
 			if (froggi.lasttime - froggi.lasttongue > gamesettings.froggitonguetime) {
 				froggi.tongue = -1;
+				var tonguept = {x: froggi.x + 24 * gamesettings.basescalefactor * froggi.tongue, y: froggi.y + (froggi.Height() - 6 * gamesettings.basescalefactor)};
 				froggi.lasttongue = froggi.lasttime;
 
 				if (ents.benshapiro.AIEnabled) {
 					if (froggi.x > ents.benshapiro.x) {
-						if (froggi.x - 22 * gamesettings.basescalefactor <= ents.benshapiro.x) {
+						//console.log(tonguept.x <= ents.benshapiro.x + ents.benshapiro.width / 2 + ' ' + tonguept.y >= ents.benshapiro.y + ' ' + tonguept.y <= ents.benshapiro.y + ents.benshapiro.Height());
+						console.log(tonguept.x + ' ' + ents.benshapiro.x + ents.benshapiro.width / 2);
+						if (tonguept.x <= ents.benshapiro.x + ents.benshapiro.width / 2 && tonguept.y >= ents.benshapiro.y && tonguept.y <= ents.benshapiro.y + ents.benshapiro.Height()) {
 							ents.benshapiro.TakeDamage(gamesettings.froggidamage);
 						}
 					}
@@ -450,6 +458,7 @@
 	}
 	benshapiro.TakeDamage = function(damage) {
 		benshapiro.Health -= damage;
+		sounds.PlayBenShapiroSound();
 		if (benshapiro.Health <= 0.01) {
 			benshapiro.deadInternal = true;
 			benshapiro.AIEnabled = false;
