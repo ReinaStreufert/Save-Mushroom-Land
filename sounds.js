@@ -2,47 +2,47 @@
 	let soundList = [
 	  {
 	    name: "catskevin",
-	    src: "/sounds/music/you_cant_eat_cats_kevin.mp3",
+	    src: "sounds/music/you_cant_eat_cats_kevin.mp3",
 			volume: 0.75
 	  },
 	  {
 	    name: "linehook",
-	    src: "/sounds/music/line_without_a_hook.mp3",
+	    src: "sounds/music/line_without_a_hook.mp3",
 			volume: 0.75
 	  },
 	  {
 	    name: "fingers",
-	    src: "/sounds/music/fingers.mp3",
+	    src: "sounds/music/fingers.mp3",
 			volume: 0.75
 	  },
 		{
 			name: "benshapiro1",
-			src: "/sounds/gameplaysounds/ben_shapiro_1.mp3",
+			src: "sounds/gameplaysounds/ben_shapiro_1.mp3",
 			volume: 1
 		},
 		{
 			name: "benshapiro2",
-			src: "/sounds/gameplaysounds/ben_shapiro_2.mp3",
+			src: "sounds/gameplaysounds/ben_shapiro_2.mp3",
 			volume: 1
 		},
 		{
 			name: "benshapiro3",
-			src: "/sounds/gameplaysounds/ben_shapiro_3.mp3",
+			src: "sounds/gameplaysounds/ben_shapiro_3.mp3",
 			volume: 1
 		},
 		{
 			name: "benshapiro4",
-			src: "/sounds/gameplaysounds/ben_shapiro_4.mp3",
+			src: "sounds/gameplaysounds/ben_shapiro_4.mp3",
 			volume: 1
 		},
 		{
 			name: "benshapiro5",
-			src: "/sounds/gameplaysounds/ben_shapiro_5.mp3",
+			src: "sounds/gameplaysounds/ben_shapiro_5.mp3",
 			volume: 1
 		},
 		{
 			name: "benshapiro6",
-			src: "/sounds/gameplaysounds/ben_shapiro_6.mp3",
+			src: "sounds/gameplaysounds/ben_shapiro_6.mp3",
 			volume: 1
 		}
 	];
