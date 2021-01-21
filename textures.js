@@ -147,6 +147,10 @@
 		{
 			name: "edsheeranwalk2left",
 			src: "enemies/edsheeran/ed_sheeran_walk_2_left.png"
+		},
+		{
+			name: "moon",
+			src: "env/moon.png"
 		}
 	];
 

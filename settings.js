@@ -4,6 +4,7 @@ window.gamesettings = {
 	slowpanspeed: 100, // in pixels per second
 	skycolorday: "#1FAEEB",
 	skycolorsunset: ["#1FAEEB", "#E67F7A"],
+	skycolornight: "#070B34",
 	entdefaultmovespeed: 500,
 	gravity: 2000,
 	entdefaultjumppower: 1000,
@@ -47,7 +48,7 @@ window.gamesettings = {
 	walkcycleinterval: 125,
 	jumppoint: 30,
 	minaifollowdistance: 100,
-	benshapiropunchinterval: 500,
+	benshapiropunchinterval: 300,
 	healthbarwidth: 70,
 	healthbaroffset: 30,
 	healthbaroutlinecolor: "black",
@@ -56,5 +57,6 @@ window.gamesettings = {
 	healthbaroutlinewidth: 10,
 	benshapirodamage: 0.1,
 	froggitonguetime: 500,
-	froggidamage: 0.1
+	froggidamage: 0.17,
+	nightstarsonstandardres: 40
 }

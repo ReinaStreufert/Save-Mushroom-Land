@@ -114,10 +114,10 @@
 			} else if (e.code == "Enter") {
 				if (gamestate.menuItem == 0) {
 					//levels.NextLevel();
+					utils.openFullscreen();
 					env.Initialize();
 					sounds.LoadAll();
 					gamestate.level.Initialize();
-					utils.openFullscreen();
 					gamestate.ui = "play";
 				}
 			}

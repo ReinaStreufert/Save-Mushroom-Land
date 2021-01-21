@@ -235,10 +235,90 @@
 			levels.NextLevel();
 		}
 	}
+	levels.edsheeran = {};
+	let edsheeran = levels.edsheeran;
+	edsheeran.Initialize = function() {
+		//sounds.PlaySound(sounds.linehook);
+
+		ents.froggi.x = 0;
+		ents.froggi.y = 91 * gamesettings.basescalefactor;
+		ents.froggi.Health = 1;
+		ents.froggi.Dead = false;
+		/*ents.benshapiro.x = 390 * gamesettings.basescalefactor;
+		ents.benshapiro.y = 102 * gamesettings.basescalefactor;
+		ents.benshapiro.AIEnabled = false;*/
+
+		env.skytype = "night";
+
+		var mushroom1 = {};
+		mushroom1.texture = textures.mushroom1;
+		mushroom1.x = 0 * gamesettings.basescalefactor;
+		mushroom1.platformy = 91 * gamesettings.basescalefactor;
+		mushroom1.platformleft = mushroom1.x - (55 * gamesettings.basescalefactor);
+		mushroom1.platformright = mushroom1.x + (55 * gamesettings.basescalefactor);
+		mushroom1.edgemushroom = -1;
+
+		var mushroom2 = {};
+		mushroom2.texture = textures.mushroom4;
+		mushroom2.x = 110 * gamesettings.basescalefactor;
+		mushroom2.platformy = 102 * gamesettings.basescalefactor;
+		mushroom2.platformleft = mushroom2.x - (60 * gamesettings.basescalefactor);
+		mushroom2.platformright = mushroom2.x + (60 * gamesettings.basescalefactor);
+		mushroom2.edgemushroom = 0;
+
+		var mushroom3 = {};
+		mushroom3.texture = textures.mushroom3;
+		mushroom3.x = 240 * gamesettings.basescalefactor;
+		mushroom3.platformy = 56 * gamesettings.basescalefactor;
+		mushroom3.platformleft = mushroom3.x - 40 * gamesettings.basescalefactor;
+		mushroom3.platformright = mushroom3.x + 40 * gamesettings.basescalefactor;
+		mushroom3.edgemushroom = 0;
+
+		var mushroom4 = {};
+		mushroom4.texture = textures.mushroom4;
+		mushroom4.x = 370 * gamesettings.basescalefactor;
+		mushroom4.platformy = 102 * gamesettings.basescalefactor;
+		mushroom4.platformleft = mushroom4.x - (60 * gamesettings.basescalefactor);
+		mushroom4.platformright = mushroom4.x + (60 * gamesettings.basescalefactor);
+		mushroom4.edgemushroom = 0;
+
+		var mushroom5 = {};
+		mushroom5.texture = textures.mushroom1;
+		mushroom5.x = 480 * gamesettings.basescalefactor;
+		mushroom5.platformy = 91 * gamesettings.basescalefactor;
+		mushroom5.platformleft = mushroom5.x - (55 * gamesettings.basescalefactor);
+		mushroom5.platformright = mushroom5.x + (55 * gamesettings.basescalefactor);
+		mushroom5.edgemushroom = 1;
+
+		var wind1 = wind.new(185 * gamesettings.basescalefactor);
+		var wind2 = wind.new(295 * gamesettings.basescalefactor);
+
+		edsheeran.ents = [ents.froggi];
+		edsheeran.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4, mushroom5];
+		edsheeran.winds = [wind1, wind2];
+
+		camera.SetFocus(ents.froggi, 1);
+		ents.froggi.ReceiveKeyUpdates = true;
+		ents.froggi.direction = 0;
+	}
+	edsheeran.Reset = function() {
+		ents.froggi.Dead = false;
+		ents.froggi.x = 0;
+		ents.froggi.y = 91 * gamesettings.basescalefactor;
+		ents.froggi.Health = 1;
+	}
+	edsheeran.OnDeath = function() {
+		dialog.QueueDialog("yknow... they say those who are killed by virgins become virgins.");
+		dialog.QueueDialog("i think i can help fix that if you want ;)");
+		dialog.OnQueueDepleted = function() {
+			edsheeran.Reset();
+		}
+	}
 
 	levels.levellist = [
 		levels.intro,
-		levels.benshapiro
+		levels.benshapiro,
+		levels.edsheeran
 	];
 	levels.NextLevel = function() {
 		sounds.StopAll();
