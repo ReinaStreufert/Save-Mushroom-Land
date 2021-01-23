@@ -10,6 +10,11 @@
 	//gamestate.level = levels.levellist[gamestate.levelNum];
 	save.Restore();
 	gamestate.menuItem = 0;
+	if (save.FirstTime) {
+		gamestate.menuItems = 2;
+	} else {
+		gamestate.menuItems = 3;
+	}
 
 	textures.LoadAll(() => {
 		gamestate.ui = "menu";
@@ -81,6 +86,13 @@
 			} else {
 				ctx.fillText(" Extras", canvas.width / 2 - 50, canvas.height / 2 + 45);
 			}
+			if (!save.FirstTime) {
+				if (gamestate.menuItem == 2) {
+					ctx.fillText(">Reset", canvas.width / 2 - 50, canvas.height / 2 + 75);
+				} else {
+					ctx.fillText(" Reset", canvas.width / 2 - 50, canvas.height / 2 + 75);
+				}
+			}
 			ui.Do(ctx, time);
 		}
 	}
@@ -105,11 +117,15 @@
 				dialog.NextDialog();
 			}
 		} else if (gamestate.ui == "menu") {
-			if (e.code == "ArrowDown" || e.code == "ArrowUp") {
-				if (gamestate.menuItem == 0) {
-					gamestate.menuItem = 1;
-				} else {
+			if (e.code == "ArrowDown") {
+				gamestate.menuItem++;
+				if (gamestate.menuItem >= gamestate.menuItems) {
 					gamestate.menuItem = 0;
+				}
+			} else if (e.code == "ArrowUp") {
+				gamestate.menuItem--;
+				if (gamestate.menuItem < 0) {
+					gamestate.menuItem = gamestate.menuItems - 1;
 				}
 			} else if (e.code == "Enter") {
 				if (gamestate.menuItem == 0) {
@@ -119,6 +135,12 @@
 					sounds.LoadAll();
 					gamestate.level.Initialize();
 					gamestate.ui = "play";
+				} else if (gamestate.menuItem == 2) {
+					gamestate.levelNum = 0;
+					save.SaveProgress();
+					save.Restore();
+					gamestate.menuItem = 0;
+					gamestate.menuItems = 2;
 				}
 			}
 		}

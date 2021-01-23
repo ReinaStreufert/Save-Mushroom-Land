@@ -14,7 +14,11 @@
 			statedata = null;
 		}
 		if (statedata != null) {
-			save.FirstTime = false;
+			if (statedata.levelNum > 0) {
+				save.FirstTime = false;
+			} else {
+				save.FirstTime = true;
+			}
 			gamestate.levelNum = statedata.levelNum;
 			gamestate.level = levels.levellist[statedata.levelNum];
 		} else {
