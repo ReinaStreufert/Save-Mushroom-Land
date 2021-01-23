@@ -140,9 +140,13 @@
 			name: "edsheeranwalk1right",
 			src: "enemies/edsheeran/ed_sheeran_walk_1.png"
 		},
+    {
+			name: "edsheeranwalk2right",
+			src: "enemies/edsheeran/ed_sheeran_walk_2.png"
+		},
 		{
 			name: "edsheeranwalk1left",
-			src: "enemies/edsheeran/ed_sheeran_walk_1.png"
+			src: "enemies/edsheeran/ed_sheeran_walk_1_left.png"
 		},
 		{
 			name: "edsheeranwalk2left",

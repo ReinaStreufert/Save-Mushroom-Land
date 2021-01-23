@@ -58,5 +58,7 @@ window.gamesettings = {
 	benshapirodamage: 0.1,
 	froggitonguetime: 500,
 	froggidamage: 0.17,
-	nightstarsonstandardres: 40
+	nightstarsonstandardres: 40,
+	virginityrayinterval: 800,
+	virginityrayrest: 200
 }

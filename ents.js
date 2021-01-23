@@ -493,4 +493,88 @@
 	edsheeran.lasttime = null;
 	edsheeran.walkcycle = 0;
 	edsheeran.lastwalk = 0;
+  edsheeran.AIEnabled = false;
+  edsheeran.targetmushroom = null;
+  edsheeran.Do = function(ctx, time) {
+    doPhysics(edsheeran, time);
+    if (edsheeran.AIEnabled) {
+      if (ents.froggi.currentmushroom != null) {
+        edsheeran.targetmushroom = ents.froggi.currentmushroom.runto;
+      }
+      if (!edsheeran.inair) {
+        if (edsheeran.targetmushroom == null || edsheeran.currentmushroom == edsheeran.targetmushroom) {
+          edsheeran.direction = 0;
+        } else if (edsheeran.targetmushroom != null) {
+          if (edsheeran.x < edsheeran.targetmushroom.x) {
+            edsheeran.direction = 1;
+          } else if (edsheeran.x > edsheeran.targetmushroom.x) {
+            edsheeran.direction = -1;
+          }
+        }
+      }
+    }
+    if (edsheeran.currentmushroom != null) {
+      if (edsheeran.direction == -1 && edsheeran.x <= edsheeran.currentmushroom.platformleft + (gamesettings.jumppoint * gamesettings.basescalefactor)) {
+        if (edsheeran.currentmushroom.edgemushroom == -1) {
+          edsheeran.direction = 0;
+        } else {
+          edsheeran.jumprequest = true;
+        }
+      }
+      if (edsheeran.direction == 1 && edsheeran.x >= edsheeran.currentmushroom.platformright - (gamesettings.jumppoint * gamesettings.basescalefactor)) {
+        if (edsheeran.currentmushroom.edgemushroom == 1) {
+          edsheeran.direction = 0;
+        } else {
+          edsheeran.jumprequest = true;
+        }
+      }
+    }
+
+    if (edsheeran.direction != 0 && !edsheeran.inair) {
+			let walkelapsed = time - edsheeran.lastwalk;
+			if (walkelapsed > gamesettings.walkcycleinterval) {
+				edsheeran.walkcycle++;
+				if (edsheeran.walkcycle > 3) {
+					edsheeran.walkcycle = 0;
+				}
+				edsheeran.lastwalk = time;
+			}
+		} else {
+			edsheeran.walkcycle = 0;
+		}
+
+    let usedTex;
+    if (edsheeran.direction != 0) {
+      edsheeran.facing = edsheeran.direction;
+    }
+    if (edsheeran.facing < 0) {
+      if (edsheeran.walkcycle == 0) {
+        usedTex = textures.edsheeranstillleft;
+      } else if (edsheeran.walkcycle == 1 || edsheeran.walkcycle == 3) {
+				usedTex = textures.edsheeranwalk1left;
+			} else if (edsheeran.walkcycle == 2) {
+				usedTex = textures.edsheeranwalk2left;
+			}
+    } else if (edsheeran.facing > 0) {
+      if (edsheeran.walkcycle == 0) {
+        usedTex = textures.edsheeranstillright;
+      } else if (edsheeran.walkcycle == 1 || edsheeran.walkcycle == 3) {
+				usedTex = textures.edsheeranwalk1right;
+			} else if (edsheeran.walkcycle == 2) {
+				usedTex = textures.edsheeranwalk2right;
+			}
+    }
+
+    var rect = camera.PlaceTexture(usedTex, edsheeran.x, edsheeran.y, 0, 1);
+
+		if (!doOffscreen(edsheeran, rect, ctx)) {
+			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
+		}
+  };
+  edsheeran.TakeDamage = function(damage) {
+
+	}
+	edsheeran.Height = function() {
+		return 23 * gamesettings.basescalefactor;
+	}
 })();

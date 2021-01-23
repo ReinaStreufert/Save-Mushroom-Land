@@ -244,6 +244,10 @@
 		ents.froggi.y = 91 * gamesettings.basescalefactor;
 		ents.froggi.Health = 1;
 		ents.froggi.Dead = false;
+
+		ents.edsheeran.x = 370 * gamesettings.basescalefactor;
+		ents.edsheeran.y = 102 * gamesettings.basescalefactor;
+		ents.edsheeran.AIEnabled = false;
 		/*ents.benshapiro.x = 390 * gamesettings.basescalefactor;
 		ents.benshapiro.y = 102 * gamesettings.basescalefactor;
 		ents.benshapiro.AIEnabled = false;*/
@@ -290,16 +294,38 @@
 		mushroom5.platformright = mushroom5.x + (55 * gamesettings.basescalefactor);
 		mushroom5.edgemushroom = 1;
 
+		mushroom1.runto = mushroom5;
+		mushroom2.runto = mushroom5;
+		mushroom3.runto = null;
+		mushroom4.runto = mushroom1;
+		mushroom5.runto = mushroom1;
+
 		var wind1 = wind.new(185 * gamesettings.basescalefactor);
 		var wind2 = wind.new(295 * gamesettings.basescalefactor);
 
-		edsheeran.ents = [ents.froggi];
+		edsheeran.ents = [ents.froggi, ents.edsheeran];
 		edsheeran.mushrooms = [mushroom1, mushroom2, mushroom3, mushroom4, mushroom5];
 		edsheeran.winds = [wind1, wind2];
 
-		camera.SetFocus(ents.froggi, 1);
-		ents.froggi.ReceiveKeyUpdates = true;
+		camera.SetFocus(ents.edsheeran, 1.5);
+		ents.froggi.ReceiveKeyUpdates = false;
 		ents.froggi.direction = 0;
+		window.setTimeout(function() {
+			dialog.QueueDialog("ew look its ED SHEERAN.");
+			dialog.QueueDialog("by staying a virgin until 30, ed sheeran gained the power of virginity rays.");
+			dialog.QueueDialog("he cant punch you, but he will shoot virginity rays at you");
+			dialog.QueueDialog("if they hit you, you'll take damage. dodge them and hit him as much as you can.");
+			dialog.QueueDialog("babe its literally ed sheeran, you can do this i believe in you :)");
+			dialog.OnQueueDepleted = function() {
+				ents.froggi.ReceiveKeyUpdates = true;
+				camera.SetFocus(ents.froggi, 1);
+				window.setTimeout(function() {
+					ui.StartCountdown(function() {
+						ents.edsheeran.AIEnabled = true;
+					});
+				}, 500);
+			}
+		}, 1000);
 	}
 	edsheeran.Reset = function() {
 		ents.froggi.Dead = false;
