@@ -392,7 +392,7 @@
 		mushroom2.OnTrigger = function() {
 			ents.froggi.ReceiveKeyUpdates = false;
 			ents.froggi.direction = 0;
-			dialog.QueueDialog("idk i like fucking around in the wind thingies a lot i think its hella fun so if you agree here's a bunch of them :)");
+			dialog.QueueDialog("idk i like fucking around in the wind thingies a lot i think its hella fun so if you agree here's a bunch of them :)"); //
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 			}
