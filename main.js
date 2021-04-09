@@ -46,7 +46,9 @@
 			for (let i = 0; i < gamestate.level.mushrooms.length; i++) {
 				let mushroom = gamestate.level.mushrooms[i];
 				let rect = camera.PlaceTexture(mushroom.texture, mushroom.x, 0, 0, 1);
-				ctx.drawImage(mushroom.texture, rect.x, rect.y, rect.width, rect.height);
+				if (rect != null) {
+					ctx.drawImage(mushroom.texture, rect.x, rect.y, rect.width, rect.height);
+				}
 			}
 			let deletes = [];
 			for (let i = 0; i < gamestate.level.ents.length; i++) {

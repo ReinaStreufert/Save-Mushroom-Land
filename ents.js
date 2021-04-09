@@ -70,9 +70,11 @@
 			if (mag < 0) {
 				mag = 0;
 			}
-			ctx.globalAlpha = mag;
-			ctx.drawImage(textures.offscreen, rect.x, rect.y, rect.width, rect.height);
-			ctx.globalAlpha = 1;
+			if (rect != null) {
+				ctx.globalAlpha = mag;
+				ctx.drawImage(textures.offscreen, rect.x, rect.y, rect.width, rect.height);
+				ctx.globalAlpha = 1;
+			}
 			return true;
 		} else {
 			return false;
@@ -151,9 +153,10 @@
 			}
 		}
 
-		var rect = camera.PlaceTexture(usedTex, froggi.x + offset, froggi.y, 0, 1);
+		var offscreen = {};
+		var rect = camera.PlaceTexture(usedTex, froggi.x + offset, froggi.y, 0, 1, offscreen);
 
-		if (!doOffscreen(froggi, rect, ctx)) {
+		if (!doOffscreen(froggi, offscreen, ctx) && rect != null) {
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
 		ctx.fillStyle = "red";
@@ -302,7 +305,9 @@
 		}
 		if (fallingmushroom.animationstart != null) {
 			var stumprect = camera.PlaceTexture(textures.mushroom5stump, fallingmushroom.x, fallingmushroom.y, 0, 1);
-			ctx.drawImage(textures.mushroom5stump, stumprect.x, stumprect.y, stumprect.width, stumprect.height);
+			if (stumprect != null) {
+				ctx.drawImage(textures.mushroom5stump, stumprect.x, stumprect.y, stumprect.width, stumprect.height);
+			}
 			var elapsed = time - fallingmushroom.animationstart;
 			if (elapsed < gamesettings.fallingmushroomanimationlength) {
 				var progress = elapsed / gamesettings.fallingmushroomanimationlength;
@@ -312,17 +317,21 @@
 				var angle = progressCurved * gamesettings.fallingmushroomendingangle;
 
 				var toprect = camera.PlaceTexture(textures.mushroom5top, fallingmushroom.x, y, 0, 1);
-				var centerx = toprect.x + toprect.width / 2;
-				var bottomy = toprect.y + toprect.height;
-				ctx.translate(centerx, bottomy);
-				ctx.rotate(-angle);
-				ctx.translate(-centerx, -bottomy);
-				ctx.drawImage(textures.mushroom5top, toprect.x, toprect.y, toprect.width, toprect.height);
-				ctx.setTransform(1, 0, 0, 1, 0, 0);
+				if (toprect != null) {
+					var centerx = toprect.x + toprect.width / 2;
+					var bottomy = toprect.y + toprect.height;
+					ctx.translate(centerx, bottomy);
+					ctx.rotate(-angle);
+					ctx.translate(-centerx, -bottomy);
+					ctx.drawImage(textures.mushroom5top, toprect.x, toprect.y, toprect.width, toprect.height);
+					ctx.setTransform(1, 0, 0, 1, 0, 0);
+				}
 			}
 		} else {
 			var rect = camera.PlaceTexture(textures.mushroom5, fallingmushroom.x, fallingmushroom.y, 0, 1);
-			ctx.drawImage(textures.mushroom5, rect.x, rect.y, rect.width, rect.height);
+			if (rect != null) {
+				ctx.drawImage(textures.mushroom5, rect.x, rect.y, rect.width, rect.height);
+			}
 		}
 	}
 
@@ -355,7 +364,9 @@
 			usedTexture = textures.engineer2;
 		}
 		let texRect = camera.PlaceTexture(usedTexture, engineer.x, engineer.y, 0, 1);
-		ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
+		if (texRect != null) {
+			ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
+		}
 	}
 
 	ents.benshapiro = {};
@@ -501,9 +512,10 @@
 			usedTex = textures.benshapirodead;
 		}
 
-		var rect = camera.PlaceTexture(usedTex, benshapiro.x + offset, benshapiro.y, 0, 1);
+		var offscreen = {};
+		var rect = camera.PlaceTexture(usedTex, benshapiro.x + offset, benshapiro.y, 0, 1, offscreen);
 
-		if (!doOffscreen(benshapiro, rect, ctx)) {
+		if (!doOffscreen(benshapiro, offscreen, ctx) && rect != null) {
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
 	}
@@ -663,9 +675,10 @@
 			usedTex = textures.edsheerandead;
 		}
 
-    var rect = camera.PlaceTexture(usedTex, edsheeran.x, edsheeran.y, 0, 1);
+		var offscreen = {};
+    var rect = camera.PlaceTexture(usedTex, edsheeran.x, edsheeran.y, 0, 1, offscreen);
 
-		if (!doOffscreen(edsheeran, rect, ctx)) {
+		if (!doOffscreen(edsheeran, offscreen, ctx) && rect != null) {
 			ctx.drawImage(usedTex, rect.x, rect.y, rect.width, rect.height);
 		}
 
@@ -720,15 +733,17 @@
 
 			var rect = camera.PlaceTexture(textures.virginityray, currentlocation.x, currentlocation.y, 0, 0);
 
-			let x = rect.x + rect.width / 2;
-			let y = rect.y + rect.height / 2;
-			ctx.globalAlpha = lifeleft;
-			ctx.translate(x, y);
-			ctx.rotate(-angle);
-			ctx.translate(-x, -y);
-			ctx.drawImage(textures.virginityray, rect.x, rect.y, rect.width, rect.height);
-			ctx.setTransform(1, 0, 0, 1, 0, 0);
-			ctx.globalAlpha = 1;
+			if (rect != null) {
+				let x = rect.x + rect.width / 2;
+				let y = rect.y + rect.height / 2;
+				ctx.globalAlpha = lifeleft;
+				ctx.translate(x, y);
+				ctx.rotate(-angle);
+				ctx.translate(-x, -y);
+				ctx.drawImage(textures.virginityray, rect.x, rect.y, rect.width, rect.height);
+				ctx.setTransform(1, 0, 0, 1, 0, 0);
+				ctx.globalAlpha = 1;
+			}
 		}
 
 		return virginityray;
@@ -778,15 +793,17 @@
 
 			var rect = camera.PlaceTexture(textures.heart, heart.x, heart.y, 0, 0);
 
-			let x = rect.x + rect.width / 2;
-			let y = rect.y + rect.height / 2;
-			ctx.globalAlpha = opacity;
-			ctx.translate(x, y);
-			ctx.rotate(Math.atan2(-gamesettings.heartrisespeed, heart.velx) + 1.57079633);
-			ctx.translate(-x, -y);
-			ctx.drawImage(textures.heart, rect.x, rect.y, rect.width, rect.height);
-			ctx.setTransform(1, 0, 0, 1, 0, 0);
-			ctx.globalAlpha = 1;
+			if (rect != null) {
+				let x = rect.x + rect.width / 2;
+				let y = rect.y + rect.height / 2;
+				ctx.globalAlpha = opacity;
+				ctx.translate(x, y);
+				ctx.rotate(Math.atan2(-gamesettings.heartrisespeed, heart.velx) + 1.57079633);
+				ctx.translate(-x, -y);
+				ctx.drawImage(textures.heart, rect.x, rect.y, rect.width, rect.height);
+				ctx.setTransform(1, 0, 0, 1, 0, 0);
+				ctx.globalAlpha = 1;
+			}
 
 			heart.lasttime = time;
 		}
@@ -864,6 +881,8 @@
 		let usedTexture;
 		usedTexture = ghost.cycle[ghost.current];
 		let texRect = camera.PlaceTexture(usedTexture, ghost.x, ghost.y + (Math.sin(time * gamesettings.ghosthoverspeed) + 1) * gamesettings.ghosthoverheight / 2, 0, 1);
-		ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
+		if (texRect != null) {
+			ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
+		}
 	};
 })();

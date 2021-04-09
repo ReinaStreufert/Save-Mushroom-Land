@@ -100,7 +100,7 @@
 			}
 		}
 	}
-	camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin) {	// origin decides what part of texture the placement point represents, between -1 and 1, -1 is left edge or top edge, 0 is center, 1 is right edge or bottom edge
+	camera.PlaceTexture = function(texture, x, y, xOrigin, yOrigin, offscreen = null) {	// origin decides what part of texture the placement point represents, between -1 and 1, -1 is left edge or top edge, 0 is center, 1 is right edge or bottom edge
 		var textureW = texture.width * gamesettings.basescalefactor;
 		var textureH = texture.height * gamesettings.basescalefactor;
 		var normX = x;
@@ -128,6 +128,15 @@
 		screenY += canvas.height / 2;
 
 		var result = {x: screenX, y: screenY, width: textureW * camera.actualZoom, height: textureH * camera.actualZoom};
+		if (offscreen != null) {
+			offscreen.x = result.x;
+			offscreen.y = result.y;
+			offscreen.width = result.width;
+			offscreen.height = result.height;
+		}
+		if (result.x + result.width < 0 || result.x > canvas.width || result.y + result.height < 0 || result.y > canvas.height) {
+			return null;
+		}
 		//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
 		return result;
 	}
@@ -159,7 +168,6 @@
 		screenY += canvas.height / 2;
 
 		var result = {x: screenX, y: screenY, width: textureW * camera.actualZoom, height: textureH * camera.actualZoom};
-		//console.log(result.x + " " + result.y + " " + result.width + " " + result.height);
 		return result;
 	}
 

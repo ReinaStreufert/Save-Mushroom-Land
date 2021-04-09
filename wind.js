@@ -47,15 +47,18 @@
 				markrect.width = 1;
 				markrect.height = mark.height;
 
-				let screenrect = camera.PlaceTexture(markrect, markrect.x, markrect.y, -1, 1);
+
 				let alpha = 255;
 				if (mark.y > gamesettings.windthreshold) {
 					alpha = 1 - ((mark.y - gamesettings.windthreshold) / (gamesettings.windmarkthreshold - gamesettings.windthreshold));
 					//console.log(alpha);
 				}
-				ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-				//console.log(`rgba(255, 255, 255, ${Math.floor(alpha)})`);
-				ctx.fillRect(screenrect.x, screenrect.y, screenrect.width, screenrect.height);
+				let screenrect = camera.PlaceTexture(markrect, markrect.x, markrect.y, -1, 1);
+				if (screenrect != null) {
+					ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+					//console.log(`rgba(255, 255, 255, ${Math.floor(alpha)})`);
+					ctx.fillRect(screenrect.x, screenrect.y, screenrect.width, screenrect.height);
+				}
 
 				mark.y += gamesettings.windmarkspeed * elapsedseconds;
 				if (mark.y > gamesettings.windmarkthreshold) {
