@@ -48,10 +48,22 @@
 				let rect = camera.PlaceTexture(mushroom.texture, mushroom.x, 0, 0, 1);
 				ctx.drawImage(mushroom.texture, rect.x, rect.y, rect.width, rect.height);
 			}
+			let deletes = [];
 			for (let i = 0; i < gamestate.level.ents.length; i++) {
 				let ent = gamestate.level.ents[i];
 				if (!ent.Dead) {
 					ent.Do(ctx, time);
+				}
+				if (ent.Destroy) {
+					deletes.push(ent);
+				}
+			}
+			for (let i = 0; i < deletes.length; i++) {
+				for (let ii = 0; ii < gamestate.level.ents.length; ii++) {
+					if (deletes[i] == gamestate.level.ents[ii]) {
+						gamestate.level.ents.splice(ii, 1);
+						break;
+					}
 				}
 			}
 			env.DoOverlay(ctx);

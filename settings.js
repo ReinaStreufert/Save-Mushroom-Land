@@ -59,6 +59,23 @@ window.gamesettings = {
 	froggitonguetime: 500,
 	froggidamage: 0.17,
 	nightstarsonstandardres: 40,
-	virginityrayinterval: 800,
-	virginityrayrest: 200
+	virginityrayinterval: 1500,
+	virginityrayrest: 500,
+	virginityrayspawnxoffset: 7, // multiplied by basescalefactor
+	virginityrayspawnyoffset: 12,
+	virginityrayspeed: 200,
+	virginityraylifespan: 1000, // in pixels travelled from spawn
+	virginityraymaxdamage: 0.1, // damage goes down based on life left
+	ghosthoverheight: 50,
+	ghosthoverspeed: 0.005,
+	heartmaxstartvelocity: 100,
+	heartrisespeed: 300,
+	heartstartthresholdoffset: 100,
+	heartendthreshold: 2000,
+	heartvelocitydecay: 50,
+	heartgeninterval: 50,
+	ghostmindecisioninterval: 5000,
+	ghostmaxdecisioninterval: 10000,
+	ghostfollowdistance: 750, // box, not circle
+	ghostmovespeed: 250
 }

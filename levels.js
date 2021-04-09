@@ -294,12 +294,6 @@
 		mushroom5.platformright = mushroom5.x + (55 * gamesettings.basescalefactor);
 		mushroom5.edgemushroom = 1;
 
-		mushroom1.runto = mushroom5;
-		mushroom2.runto = mushroom5;
-		mushroom3.runto = null;
-		mushroom4.runto = mushroom1;
-		mushroom5.runto = mushroom1;
-
 		var wind1 = wind.new(185 * gamesettings.basescalefactor);
 		var wind2 = wind.new(295 * gamesettings.basescalefactor);
 
@@ -315,6 +309,7 @@
 			dialog.QueueDialog("by staying a virgin until 30, ed sheeran gained the power of virginity rays.");
 			dialog.QueueDialog("he cant punch you, but he will shoot virginity rays at you");
 			dialog.QueueDialog("if they hit you, you'll take damage. dodge them and hit him as much as you can.");
+			dialog.QueueDialog("virginity rays fade out as they travel, the further the ray travels the less damage it will deal.");
 			dialog.QueueDialog("babe its literally ed sheeran, you can do this i believe in you :)");
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
@@ -332,6 +327,20 @@
 		ents.froggi.x = 0;
 		ents.froggi.y = 91 * gamesettings.basescalefactor;
 		ents.froggi.Health = 1;
+		ents.edsheeran.x = 370 * gamesettings.basescalefactor;
+		ents.edsheeran.y = 102 * gamesettings.basescalefactor;
+		ents.edsheeran.Health = 1;
+		ents.edsheeran.AIEnabled = false;
+		for (let i = 0; i < edsheeran.ents.length; i++) {
+			if (edsheeran.ents[i].ray) {
+				edsheeran.ents[i].Destroy = true;
+			}
+		}
+		window.setTimeout(function() {
+			ui.StartCountdown(function() {
+				ents.edsheeran.AIEnabled = true;
+			});
+		}, 500);
 	}
 	edsheeran.OnDeath = function() {
 		dialog.QueueDialog("yknow... they say those who are killed by virgins become virgins.");
@@ -340,11 +349,99 @@
 			edsheeran.Reset();
 		}
 	}
+	edsheeran.OnEnemyDeath = function() {
+		camera.SetFocus(ents.edsheeran, 1.5);
+		ents.froggi.Dead = true;
+		dialog.QueueDialog("OMG OMG you killed ed sheeran youre so hot rn");
+		dialog.QueueDialog("killing ed sheeran makes you v sexy");
+		dialog.QueueDialog("go send me nudes rn do it or dont thats okay too i dont wanna make you feel pressured but fucking do it bitch but again only if youre comfortable consent is a very important thing to have in a relationship and i would never want to make you do something you're not comfortable with so please tell me if i ever make you feel that way anyways send me nudes you dumb bitch but fr i love you so much and i always want you to feel comfortable and safe so if you dont want to thats completely okay and i would never make you do that like seriously i mean that with all my heart i love you so much now show me you're fucking tits");
+		dialog.QueueDialog("ANYWAYS you get to have a nice break before the final boss so enjoy that :)");
+		dialog.OnQueueDepleted = function() {
+			levels.NextLevel();
+		}
+	}
+
+	levels.funsexycoolbreak = {};
+	let funsexycoolbreak = levels.funsexycoolbreak;
+	funsexycoolbreak.Initialize = function() {
+		env.skytype = "day";
+
+		ents.froggi.x = 0;
+		ents.froggi.y = 91 * gamesettings.basescalefactor;
+		ents.froggi.Dead = false;
+		ents.froggi.Health = 1;
+		ents.froggi.happy = true; // yay!!!!!!
+
+		ents.ghost.x = 500;
+		ents.ghost.y = 95 * gamesettings.basescalefactor;
+
+		var mushroom1 = {};
+		mushroom1.texture = textures.mushroom1;
+		mushroom1.x = 0;
+		mushroom1.platformy = 91 * gamesettings.basescalefactor;
+		mushroom1.platformleft = mushroom1.x - 55 * gamesettings.basescalefactor;
+		mushroom1.platformright = mushroom1.x + 55 * gamesettings.basescalefactor;
+
+		var mushroom2 = {};
+		mushroom2.texture = textures.mushroom3;
+		mushroom2.x = 110 * gamesettings.basescalefactor;
+		mushroom2.platformy = 56 * gamesettings.basescalefactor;
+		mushroom2.platformleft = mushroom2.x - (40 * gamesettings.basescalefactor);
+		mushroom2.platformright = mushroom2.x + (40 * gamesettings.basescalefactor);
+		mushroom2.trigger = false;
+		mushroom2.OnTrigger = function() {
+			ents.froggi.ReceiveKeyUpdates = false;
+			ents.froggi.direction = 0;
+			dialog.QueueDialog("idk i like fucking around in the wind thingies a lot i think its hella fun so if you agree here's a bunch of them :)");
+			dialog.OnQueueDepleted = function() {
+				ents.froggi.ReceiveKeyUpdates = true;
+			}
+		}
+
+		var mushroom3 = {};
+		mushroom3.texture = textures.mushroom3;
+		mushroom3.x = -110 * gamesettings.basescalefactor;
+		mushroom3.platformy = 56 * gamesettings.basescalefactor;
+		mushroom3.platformleft = mushroom3.x - (40 * gamesettings.basescalefactor);
+		mushroom3.platformright = mushroom3.x + (40 * gamesettings.basescalefactor);
+
+		funsexycoolbreak.ents = [ents.froggi, ents.ghost];
+		funsexycoolbreak.mushrooms = [mushroom1, mushroom2, mushroom3];
+		funsexycoolbreak.winds = [];
+		for (let i = 0; i < 5; i++) {
+			funsexycoolbreak.winds.push(wind.new(1000 + (30 * 6 * i)));
+		}
+
+		camera.SetFocus(ents.froggi, 1);
+		ents.froggi.ReceiveKeyUpdates = false;
+		ents.froggi.direction = 0;
+		window.setTimeout(function() {
+			dialog.QueueDialog("okay yeah no hi hi i figured you might want a break before the final boss :)");
+			dialog.QueueDialog("so yeah hangout w the ghost and relax for a little bit");
+			dialog.QueueDialog("take as much time as you need here and when you're ready go through the portal on the left ilyyyyyy");
+			dialog.OnQueueDepleted = function() {
+				ents.froggi.ReceiveKeyUpdates = true;
+			}
+		}, 1000);
+	}
+	funsexycoolbreak.Reset = function() {
+		ents.froggi.Dead = false;
+		ents.froggi.x = 0;
+		ents.froggi.y = 91 * gamesettings.basescalefactor;
+		ents.froggi.Health = 1;
+	}
+	funsexycoolbreak.OnDeath = function() {
+		dialog.QueueDialog("this is your break so yeah no you didnt die lets forget that happened ;)");
+		dialog.OnQueueDepleted = function() {
+			intro.Reset();
+		}
+	}
 
 	levels.levellist = [
 		levels.intro,
 		levels.benshapiro,
-		levels.edsheeran
+		levels.edsheeran,
+		levels.funsexycoolbreak
 	];
 	levels.NextLevel = function() {
 		sounds.StopAll();

@@ -24,6 +24,14 @@
 	    name: "froggijumptongueright",
 	    src: "froggi/froggi_jump_tongue_right.png"
 	  },
+		{
+			name: "froggistillhappy",
+			src: "froggi/froggi_still_happy.png"
+		},
+		{
+			name: "froggijumphappy",
+			src: "froggi/froggi_jump_happy.png"
+		},
 	  {
 	    name: "mushroom1",
 	    src: "mushrooms/mushroom_1.png"
@@ -155,6 +163,34 @@
 		{
 			name: "moon",
 			src: "env/moon.png"
+		},
+		{
+			name: "virginityray",
+			src: "enemies/edsheeran/virginity_ray.png"
+		},
+		{
+			name: "edsheerandead",
+			src: "enemies/edsheeran/ed_sheeran_dead.png"
+		},
+		{
+			name: "ghost1still",
+			src: "miscents/ghost_1_still.png"
+		},
+		{
+			name: "ghost2still",
+			src: "miscents/ghost_2_still.png"
+		},
+		{
+			name: "ghost3still",
+			src: "miscents/ghost_3_still.png"
+		},
+		{
+			name: "ghost4still",
+			src: "miscents/ghost_4_still.png"
+		},
+		{
+			name: "heart",
+			src: "miscents/heart.png"
 		}
 	];
 
