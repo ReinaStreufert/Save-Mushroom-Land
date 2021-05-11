@@ -29,7 +29,7 @@
 		"if they hit you, you'll take damage. dodge them and hit him as much as you can.",
 		"virginity rays fade out as they travel, the further the ray travels the less damage it will deal.",
 		"babe its literally ed sheeran, you can do this i believe in you :)",
-		"damn. killed be ed sheeran.",
+		"damn. killed by ed sheeran.",
 		"retry ig [insert partially-ironic eye roll emoji]",
 		"OMG OMG you killed ed sheeran thats so epic !!!",
 		"youre the bestest ever :))",
