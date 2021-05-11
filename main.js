@@ -127,9 +127,6 @@
 					ent.KeyDown(e);
 				}
 			}
-			if (e.code == "Enter") {
-				dialog.NextDialog();
-			}
 		} else if (gamestate.ui == "menu") {
 			if (e.code == "ArrowDown") {
 				gamestate.menuItem++;

@@ -191,6 +191,18 @@
 		{
 			name: "heart",
 			src: "miscents/heart.png"
+		},
+		{
+			name: "portal1anim",
+			src: "miscents/portal_1.png"
+		},
+		{
+			name: "portal2anim",
+			src: "miscents/portal_2.png"
+		},
+		{
+			name: "portal3anim",
+			src: "miscents/portal_3.png"
 		}
 	];
 

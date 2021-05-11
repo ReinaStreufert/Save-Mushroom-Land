@@ -885,4 +885,31 @@
 			ctx.drawImage(usedTexture, texRect.x, texRect.y, texRect.width, texRect.height);
 		}
 	};
+
+	ents.portal = {};
+	let portal = ents.portal;
+	portal.ReceiveKeyUpdates = false;
+	portal.Dead = false;
+	portal.x = 0;
+	portal.y = 0;
+	portal.lastcycle = 0;
+	portal.current = 0;
+	portal.Do = function(ctx, time) {
+		if (portal.lastcycle == 0) {
+			portal.lastcycle = time;
+			portal.cycle = [textures.portal1anim, textures.portal2anim, textures.portal3anim];
+		}
+		if (time - portal.lastcycle > gamesettings.portalanimationinterval) {
+			portal.lastcycle = time;
+			portal.current++;
+			if (portal.current > 2) {
+				portal.current = 0;
+			}
+		}
+
+		let texRect = camera.PlaceTexture(portal.cycle[portal.current], portal.x, portal.y + (Math.sin(time * gamesettings.portalhoverspeed) + 1) * gamesettings.portalhoverheight / 2, 0, 1);
+		if (texRect != null) {
+			ctx.drawImage(portal.cycle[portal.current], texRect.x, texRect.y, texRect.width, texRect.height);
+		}
+	}
 })();

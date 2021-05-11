@@ -34,6 +34,7 @@ window.gamesettings = {
 	dialogborderwidth: 10,
 	dialogheight: 250,
 	dialogendtext: "Press ENTER to continue...",
+	promptendtext: "Press Y for yes or N for no...",
 	dialogtextinterval: 25, // interval in milliseconds
 	fallingmushroomanimationlength: 2000, // length in milliseconds
 	fallingmushroomanimationcurve: [{x: 0, y: 0}, {x: 1, y: 0}, {x: 1, y: 1}],
@@ -77,5 +78,8 @@ window.gamesettings = {
 	ghostmindecisioninterval: 5000,
 	ghostmaxdecisioninterval: 10000,
 	ghostfollowdistance: 750, // box, not circle
-	ghostmovespeed: 250
+	ghostmovespeed: 250,
+	portalanimationinterval: 50,
+	portalhoverheight: 25,
+	portalhoverspeed: 0.002
 }

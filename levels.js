@@ -35,7 +35,7 @@
 		mushroom3.OnTrigger = function() {
 			ents.froggi.ReceiveKeyUpdates = false;
 			ents.froggi.direction = 0;
-			dialog.QueueDialog("ok so that mf to the right of you is like wind nd it'll propel you upwards :)");
+			dialog.QueueDialog(window.texts[0]);
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 			}
@@ -64,10 +64,10 @@
 				camera.SetSlowPan(600 * gamesettings.basescalefactor, camera.YZero(), 1, function() {
 					ui.EndCutScene();
 					window.setTimeout(function() {
-						dialog.QueueDialog("uh-oh, looks like the LEAGUE OF MUSHROOM HATERS are getting more mushrooms cut down");
-						dialog.QueueDialog("they're literally destroying your home. smh my head [insert partially-ironic eye roll emoji]");
-						dialog.QueueDialog("yk what, you're fed up w this bullshit, you should just kill them bitches");
-						dialog.QueueDialog("it's time to fight the mushroom haters.");
+						dialog.QueueDialog(window.texts[1]);
+						dialog.QueueDialog(window.texts[2]);
+						dialog.QueueDialog(window.texts[3]);
+						dialog.QueueDialog(window.texts[4]);
 					}, gamesettings.cutscenemarkanimationlength);
 					dialog.OnQueueDepleted = function() {
 						window.setTimeout(function() {
@@ -82,7 +82,7 @@
 		ents.fallingmushroom.x = 600 * gamesettings.basescalefactor;
 		ents.fallingmushroom.y = 0;
 
-		ents.engineer.x = 612 * gamesettings.basescalefactor;
+		ents.engineer.x = 615 * gamesettings.basescalefactor;
 		ents.engineer.y = 0;
 
 		var wind1 = wind.new(210 * gamesettings.basescalefactor);
@@ -95,11 +95,11 @@
 		ents.froggi.ReceiveKeyUpdates = false;
 		ents.froggi.direction = 0;
 		window.setTimeout(function() {
-			dialog.QueueDialog("omg hi you look so pretty !! [insert bottom emoji]");
-			dialog.QueueDialog("ok so this is mushroom land and you're a froggi :))");
-			dialog.QueueDialog("in a sec you'll be able to use SPACE or W to jump nd then A and D to jump left and right or move while in the air");
-			dialog.QueueDialog("you can use RIGHT ARROW and LEFT ARROW to stick your tongue out which will be used for attacking later");
-			dialog.QueueDialog("nd yeah you can hop between mushrooms and stuff so yeah try it ilyyy <3");
+			dialog.QueueDialog(window.texts[5]);
+			dialog.QueueDialog(window.texts[6]);
+			dialog.QueueDialog(window.texts[7]);
+			dialog.QueueDialog(window.texts[8]);
+			dialog.QueueDialog(window.texts[9]);
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 			}
@@ -114,11 +114,11 @@
 	}
 	intro.OnDeath = function() {
 		if (intro.firstdeath) {
-			dialog.QueueDialog("oh wack you died :((");
-			dialog.QueueDialog("dw tho you'll just respawn nd it's cool :)");
+			dialog.QueueDialog(window.texts[10]);
+			dialog.QueueDialog(window.texts[11]);
 			intro.firstdeath = false;
 		} else {
-			dialog.QueueDialog("You died...");
+			dialog.QueueDialog(window.texts[12]); // You died...
 		}
 		dialog.OnQueueDepleted = function() {
 			intro.Reset();
@@ -186,11 +186,11 @@
 		ents.froggi.ReceiveKeyUpdates = false;
 		ents.froggi.direction = 0;
 		window.setTimeout(function() {
-			dialog.QueueDialog("this is BEN SHAPIRO, he's the first mushroom hater >:(");
-			dialog.QueueDialog("like his political arguments, his attacks are v uncreative");
-			dialog.QueueDialog("all he knows how to do is punch. but mmmmm look at those muscles (haha get it im being you)");
-			dialog.QueueDialog("use your tongue to attack him and avoid his punches");
-			dialog.QueueDialog("you can do this baby ily :) <3");
+			dialog.QueueDialog(window.texts[13]);
+			dialog.QueueDialog(window.texts[14]);
+			dialog.QueueDialog(window.texts[15]);
+			dialog.QueueDialog(window.texts[16]);
+			dialog.QueueDialog(window.texts[17]);
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 				camera.SetFocus(ents.froggi, 1);
@@ -219,8 +219,8 @@
 	}
 	benshapiro.OnDeath = function() {
 		ents.benshapiro.AIEnabled = false;
-		dialog.QueueDialog("you lost against ben shapiro lmao");
-		dialog.QueueDialog("its cool try again ily");
+		dialog.QueueDialog(window.texts[18]);
+		dialog.QueueDialog(window.texts[19]);
 		dialog.OnQueueDepleted = function() {
 			benshapiro.Reset();
 		}
@@ -228,9 +228,9 @@
 	benshapiro.OnEnemyDeath = function() {
 		camera.SetFocus(ents.benshapiro, 1.5);
 		ents.froggi.Dead = true;
-		dialog.QueueDialog("AHHH good job baby :)) <3");
-		dialog.QueueDialog("im so proud of you [insert bottom emoji] !!!");
-		dialog.QueueDialog("but you're not done yet. there are 2 more mushroom haters to kill.");
+		dialog.QueueDialog(window.texts[20]);
+		dialog.QueueDialog(window.texts[21]);
+		dialog.QueueDialog(window.texts[22]);
 		dialog.OnQueueDepleted = function() {
 			levels.NextLevel();
 		}
@@ -305,12 +305,12 @@
 		ents.froggi.ReceiveKeyUpdates = false;
 		ents.froggi.direction = 0;
 		window.setTimeout(function() {
-			dialog.QueueDialog("ew look its ED SHEERAN.");
-			dialog.QueueDialog("by staying a virgin until 30, ed sheeran gained the power of virginity rays.");
-			dialog.QueueDialog("he cant punch you, but he will shoot virginity rays at you");
-			dialog.QueueDialog("if they hit you, you'll take damage. dodge them and hit him as much as you can.");
-			dialog.QueueDialog("virginity rays fade out as they travel, the further the ray travels the less damage it will deal.");
-			dialog.QueueDialog("babe its literally ed sheeran, you can do this i believe in you :)");
+			dialog.QueueDialog(window.texts[23]);
+			dialog.QueueDialog(window.texts[24]);
+			dialog.QueueDialog(window.texts[25]);
+			dialog.QueueDialog(window.texts[26]);
+			dialog.QueueDialog(window.texts[27]);
+			dialog.QueueDialog(window.texts[28]);
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 				camera.SetFocus(ents.froggi, 1);
@@ -343,8 +343,8 @@
 		}, 500);
 	}
 	edsheeran.OnDeath = function() {
-		dialog.QueueDialog("yknow... they say those who are killed by virgins become virgins.");
-		dialog.QueueDialog("i think i can help fix that if you want ;)");
+		dialog.QueueDialog(window.texts[29]);
+		dialog.QueueDialog(window.texts[30]);
 		dialog.OnQueueDepleted = function() {
 			edsheeran.Reset();
 		}
@@ -352,10 +352,10 @@
 	edsheeran.OnEnemyDeath = function() {
 		camera.SetFocus(ents.edsheeran, 1.5);
 		ents.froggi.Dead = true;
-		dialog.QueueDialog("OMG OMG you killed ed sheeran youre so hot rn");
-		dialog.QueueDialog("killing ed sheeran makes you v sexy");
-		dialog.QueueDialog("go send me nudes rn do it or dont thats okay too i dont wanna make you feel pressured but fucking do it bitch but again only if youre comfortable consent is a very important thing to have in a relationship and i would never want to make you do something you're not comfortable with so please tell me if i ever make you feel that way anyways send me nudes you dumb bitch but fr i love you so much and i always want you to feel comfortable and safe so if you dont want to thats completely okay and i would never make you do that like seriously i mean that with all my heart i love you so much now show me you're fucking tits");
-		dialog.QueueDialog("ANYWAYS you get to have a nice break before the final boss so enjoy that :)");
+		dialog.QueueDialog(window.texts[31]);
+		dialog.QueueDialog(window.texts[32]);
+		dialog.QueueDialog(window.texts[33]);
+		dialog.QueueDialog(window.texts[34]);
 		dialog.OnQueueDepleted = function() {
 			levels.NextLevel();
 		}
@@ -375,6 +375,9 @@
 		ents.ghost.x = 500;
 		ents.ghost.y = 95 * gamesettings.basescalefactor;
 
+		ents.portal.x = -110 * gamesettings.basescalefactor;
+		ents.portal.y = 65 * gamesettings.basescalefactor;
+
 		var mushroom1 = {};
 		mushroom1.texture = textures.mushroom1;
 		mushroom1.x = 0;
@@ -392,7 +395,7 @@
 		mushroom2.OnTrigger = function() {
 			ents.froggi.ReceiveKeyUpdates = false;
 			ents.froggi.direction = 0;
-			dialog.QueueDialog("idk i like fucking around in the wind thingies a lot i think its hella fun so if you agree here's a bunch of them :)"); //
+			dialog.QueueDialog(window.texts[35]);
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 			}
@@ -405,7 +408,7 @@
 		mushroom3.platformleft = mushroom3.x - (40 * gamesettings.basescalefactor);
 		mushroom3.platformright = mushroom3.x + (40 * gamesettings.basescalefactor);
 
-		funsexycoolbreak.ents = [ents.froggi, ents.ghost];
+		funsexycoolbreak.ents = [ents.portal, ents.froggi, ents.ghost];
 		funsexycoolbreak.mushrooms = [mushroom1, mushroom2, mushroom3];
 		funsexycoolbreak.winds = [];
 		for (let i = 0; i < 5; i++) {
@@ -416,9 +419,9 @@
 		ents.froggi.ReceiveKeyUpdates = false;
 		ents.froggi.direction = 0;
 		window.setTimeout(function() {
-			dialog.QueueDialog("okay yeah no hi hi i figured you might want a break before the final boss :)");
-			dialog.QueueDialog("so yeah hangout w the ghost and relax for a little bit");
-			dialog.QueueDialog("take as much time as you need here and when you're ready go through the portal on the left ilyyyyyy");
+			dialog.QueueDialog(window.texts[36]);
+			dialog.QueueDialog(window.texts[37]);
+			dialog.QueueDialog(window.texts[38]);
 			dialog.OnQueueDepleted = function() {
 				ents.froggi.ReceiveKeyUpdates = true;
 			}
@@ -431,7 +434,7 @@
 		ents.froggi.Health = 1;
 	}
 	funsexycoolbreak.OnDeath = function() {
-		dialog.QueueDialog("this is your break so yeah no you didnt die lets forget that happened ;)");
+		dialog.QueueDialog(window.texts[39]);
 		dialog.OnQueueDepleted = function() {
 			intro.Reset();
 		}
