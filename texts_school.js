@@ -41,4 +41,5 @@
 		"Take as much time as you need here and when you're ready go through the portal on the left :)",
 		"Whoops!"
 	];
+	window.school = true;
 })();

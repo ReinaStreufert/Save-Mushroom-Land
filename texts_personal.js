@@ -41,4 +41,5 @@
 		"take as much time as you need here and when you're ready go through the portal on the left ilyyyyyy",
 		"this is your break so yeah no you didnt die lets forget that happened ;)"
 	];
+	window.school = false;
 })();

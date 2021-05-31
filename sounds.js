@@ -72,6 +72,8 @@
 		sound.play();
 	}
 	sounds.PlayBenShapiroSound = function() {
-		sounds.PlaySound(sounds.benshapirosounds[utils.randInt(0, sounds.benshapirosounds.length)]);
+		if (!window.school) {
+			sounds.PlaySound(sounds.benshapirosounds[utils.randInt(0, sounds.benshapirosounds.length)]);
+		}
 	}
 })();
